@@ -109,16 +109,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
       
       if (mounted && userCredential.user != null) {
         await ref.read(userProvider.notifier).refreshUserProfile();
-        
+
+        // Send verification code and navigate to verification screen
+        await ref
+            .read(authServiceProvider)
+            .sendVerificationCode(_emailController.text.trim());
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${T(context, 'auth.welcome_message')}, ${_firstNameController.text}!'),
+            content: Text(T(context, 'auth.verification_code_sent')),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
         );
-        context.go('/');
+
+        context.go('/email-verification', extra: {
+          'email': _emailController.text.trim(),
+        });
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
