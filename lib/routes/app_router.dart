@@ -10,7 +10,6 @@ import 'package:hand_speak/features/settings/screens/settings_screen.dart';
 import 'package:hand_speak/features/splash/screens/splash_screen.dart';
 import 'package:hand_speak/features/settings/screens/help_page.dart';
 import 'package:hand_speak/features/auth/screens/about_page.dart';
-// my_videos_screen.dart removed - functionality merged into video_gallery_screen.dart
 import 'package:hand_speak/features/videos/screens/video_gallery_screen.dart';
 import 'package:hand_speak/features/settings/screens/video_quality_screen.dart';
 import 'package:hand_speak/features/learn/screens/alphabet_screen.dart';

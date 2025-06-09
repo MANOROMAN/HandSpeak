@@ -28,6 +28,22 @@
   "@authPasswordHint": {
     "description": "Şifre giriş alanı ipucu"
   },
+  "authBirthDate": "Doğum Tarihi",
+  "@authBirthDate": {
+    "description": "Doğum tarihi alanı etiketi"
+  },
+  "authBirthDateHint": "Doğum tarihinizi seçin",
+  "@authBirthDateHint": {
+    "description": "Doğum tarihi alanı ipucu"
+  },
+  "authValidationBirthDateRequired": "Lütfen doğum tarihinizi girin",
+  "@authValidationBirthDateRequired": {
+    "description": "Doğum tarihi boş bırakıldığında gösterilen hata"
+  },
+  "authValidationBirthDateInvalid": "Geçersiz doğum tarihi",
+  "@authValidationBirthDateInvalid": {
+    "description": "Doğum tarihi geçersiz olduğunda gösterilen hata"
+  },
   "authForgotPassword": "Şifremi Unuttum",
   "@authForgotPassword": {
     "description": "Şifremi unuttum bağlantısı"
@@ -308,6 +324,10 @@
   "profile.settings": "Ayarlar",
   "profile.help": "Yardım",
   "profile.about": "Hakkında",
+  "profile.settings_subtitle": "Uygulama ayarları",
+  "profile.user_info_subtitle": "Kayıt tarihi ve tercihler",
+  "profile.help_subtitle": "Sıkça sorulan sorular",
+  "profile.about_subtitle": "Uygulama hakkında",
   "profile.my_videos": "Videolarım",
   "profile.logout": "Çıkış Yap",
   "common.cancel": "İptal",
@@ -353,5 +373,9 @@
   },
   "cameraPreparing": "Kamera hazırlanıyor...",
   "recordingInProgress": "Kayıt yapılıyor...",
-  "effects": "Efektler"
+  "effects": "Efektler",
+  "selectVideo": "Video Seç",
+  "@selectVideo": {
+    "description": "Video galerisinde seçim modu başlığı"
+  }
 }

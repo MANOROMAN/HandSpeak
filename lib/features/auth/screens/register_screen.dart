@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hand_speak/core/widgets/auth_text_field.dart';
 import 'package:hand_speak/core/widgets/auth_button.dart';
 import 'package:hand_speak/core/utils/translation_helper.dart' show T;
+import 'package:hand_speak/core/utils/validation_utils.dart';
 import 'package:hand_speak/providers/auth_provider.dart';
 import 'package:hand_speak/providers/user_provider.dart';
 
@@ -24,6 +25,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  DateTime? _birthDate;
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -97,6 +99,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final birthDateError =
+        ValidationUtils.validateBirthDate(context, _birthDate);
+    if (birthDateError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(birthDateError),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
@@ -109,16 +126,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
       
       if (mounted && userCredential.user != null) {
         await ref.read(userProvider.notifier).refreshUserProfile();
-        
+
+        // Send verification code and navigate to verification screen
+        await ref
+            .read(authServiceProvider)
+            .sendVerificationCode(_emailController.text.trim());
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${T(context, 'auth.welcome_message')}, ${_firstNameController.text}!'),
+            content: Text(T(context, 'auth.verification_code_sent')),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
         );
-        context.go('/');
+
+        context.go('/email-verification', extra: {
+          'email': _emailController.text.trim(),
+        });
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {

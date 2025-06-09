@@ -70,6 +70,7 @@ class AuthService {
         photoUrl: user.photoURL,
         createdAt: DateTime.now(),
         isEmailVerified: user.emailVerified,
+        birthDate: null,
       );
 
       await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
@@ -243,6 +244,21 @@ class AuthService {
       rethrow;
     }
   }
+
+  /// Mark the current user's email as verified in Firestore
+  Future<void> markEmailVerified(String userId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'isEmailVerified': true,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      await _auth.currentUser?.reload();
+      debugPrint('✅ Email marked as verified for $userId');
+    } catch (e) {
+      debugPrint('❌ Error updating email verification status: $e');
+      rethrow;
+    }
+  }
   
   // E-posta ve doğrulama koduyla giriş yapma
   Future<UserCredential> signInWithEmailAndCode({
@@ -311,14 +327,19 @@ class AuthService {
     }
   }
 
-  // Update user name
-  Future<void> updateUserName(String userId, String firstName, String lastName) async {
+  // Update user name and birth date
+  Future<void> updateUserName(String userId, String firstName, String lastName,
+      {DateTime? birthDate}) async {
     try {
-      await _firestore.collection('users').doc(userId).update({
+      final data = {
         'firstName': firstName,
         'lastName': lastName,
         'updatedAt': FieldValue.serverTimestamp(),
-      });
+      };
+      if (birthDate != null) {
+        data['birthDate'] = Timestamp.fromDate(birthDate);
+      }
+      await _firestore.collection('users').doc(userId).update(data);
       
       // Also update Firebase Auth profile
       if (currentUser != null) {

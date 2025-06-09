@@ -28,6 +28,22 @@
   "@authPasswordHint": {
     "description": "Password input field hint"
   },
+  "authBirthDate": "Birth Date",
+  "@authBirthDate": {
+    "description": "Label for birth date field"
+  },
+  "authBirthDateHint": "Select your birth date",
+  "@authBirthDateHint": {
+    "description": "Hint for birth date field"
+  },
+  "authValidationBirthDateRequired": "Please enter your birth date",
+  "@authValidationBirthDateRequired": {
+    "description": "Error message when birth date is missing"
+  },
+  "authValidationBirthDateInvalid": "Invalid birth date",
+  "@authValidationBirthDateInvalid": {
+    "description": "Error message when birth date is invalid"
+  },
   "authForgotPassword": "Forgot Password",
   "@authForgotPassword": {
     "description": "Forgot password link text"
@@ -216,6 +232,10 @@
   "@profileAboutContent": {
     "description": "About content"
   },
+  "profile.settings_subtitle": "Manage app preferences",
+  "profile.user_info_subtitle": "Registration date and preferences",
+  "profile.help_subtitle": "Frequently asked questions",
+  "profile.about_subtitle": "About the application",
   "profileClose": "Close",
   "@profileClose": {
     "description": "Dialog close button"
@@ -314,5 +334,9 @@
   },
   "cameraPreparing": "Camera is preparing...",
   "recordingInProgress": "Recording...",
-  "effects": "Effects"
+  "effects": "Effects",
+  "selectVideo": "Select Video",
+  "@selectVideo": {
+    "description": "Title when selecting a video"
+  }
 }

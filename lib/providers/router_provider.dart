@@ -17,7 +17,6 @@ import 'package:hand_speak/features/auth/screens/about_page.dart';
 import 'package:hand_speak/features/settings/screens/change_password_screen.dart';
 import 'package:hand_speak/features/settings/screens/help_page.dart';
 import 'package:hand_speak/features/settings/screens/settings_screen.dart';
-// my_videos_screen.dart removed - functionality merged into video_gallery_screen.dart
 import 'package:hand_speak/features/videos/screens/video_gallery_screen.dart';
 import 'package:hand_speak/providers/user_provider.dart';
 import 'package:hand_speak/providers/auth_provider.dart';

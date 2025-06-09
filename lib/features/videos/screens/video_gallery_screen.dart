@@ -176,7 +176,7 @@ class _UnifiedVideoScreenState extends ConsumerState<UnifiedVideoScreen>
               title: Text(
                 widget.isSelectionMode 
                   ? T(context, 'select_video')
-                  : T(context, 'my_videos'),
+                  : T(context, 'myVideosTitle'),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20.sp,

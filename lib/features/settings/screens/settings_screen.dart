@@ -67,7 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Ayarlar',
+          T(context, 'settings.title'),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.sp,
@@ -159,7 +159,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Uygulama Ayarları',
+                              T(context, 'settings.header_title'),
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: theme.primaryColor,
@@ -167,7 +167,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              'Kişiselleştirme ve tercihler',
+                              T(context, 'settings.header_subtitle'),
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                               ),
@@ -184,7 +184,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 // Display Settings
                 _buildSection(
                   context,
-                  title: 'Görünüm',
+                  title: T(context, 'settings.theme'),
                   icon: Icons.palette_rounded,
                   iconColor: Colors.blue,
                   children: [
@@ -198,7 +198,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 // Account Settings
                 _buildSection(
                   context,
-                  title: 'Hesap',
+                  title: T(context, 'settings.account'),
                   icon: Icons.account_circle_rounded,
                   iconColor: Colors.green,
                   children: [
@@ -212,7 +212,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 // Video Settings
                 _buildSection(
                   context,
-                  title: 'Video Kalitesi',
+                  title: T(context, 'settings.video_quality'),
                   icon: Icons.videocam_rounded,
                   iconColor: Colors.purple,
                   children: [
@@ -295,8 +295,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget _buildThemeModeSettingTile(BuildContext context, dynamic settings, WidgetRef ref, ThemeData theme) {
     return _buildSettingTile(
       context,
-      title: 'Tema Modu',
-      subtitle: 'Açık, koyu veya sistem ayarını kullan',
+      title: T(context, 'settings.theme_mode'),
+      subtitle: T(context, 'settings.theme_mode_description'),
       icon: theme.brightness == Brightness.dark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
       trailing: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -329,13 +329,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             String modeText;
             switch (mode) {
               case ThemeMode.light:
-                modeText = 'Açık';
+                modeText = T(context, 'settings.light');
                 break;
               case ThemeMode.dark:
-                modeText = 'Koyu';
+                modeText = T(context, 'settings.dark');
                 break;
               case ThemeMode.system:
-                modeText = 'Sistem';
+                modeText = T(context, 'settings.system');
                 break;
             }
             return DropdownMenuItem(
@@ -351,8 +351,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget _buildLanguageSettingTile(BuildContext context, Locale currentLocale, WidgetRef ref, ThemeData theme) {
     return _buildSettingTile(
       context,
-      title: 'Dil',
-      subtitle: 'Uygulama dilini değiştir',
+      title: T(context, 'settings.language'),
+      subtitle: T(context, 'settings.language_subtitle'),
       icon: Icons.language_rounded,
       trailing: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
@@ -400,8 +400,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget _buildUserIdSettingTile(BuildContext context, dynamic settings, WidgetRef ref, ThemeData theme) {
     return _buildSettingTile(
       context,
-      title: 'Kullanıcı ID Göster',
-      subtitle: 'Profilde kullanıcı kimliğini göster',
+      title: T(context, 'settings.show_user_id_title'),
+      subtitle: T(context, 'settings.show_user_id_subtitle'),
       icon: Icons.badge_rounded,
       trailing: Switch.adaptive(
         value: settings.showUserId,
@@ -416,8 +416,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget _buildChangePasswordTile(BuildContext context, WidgetRef ref, ThemeData theme) {
     return _buildSettingTile(
       context,
-      title: 'Şifre Değiştir',
-      subtitle: 'Hesap şifrenizi güncelleyin',
+      title: T(context, 'settings.change_password'),
+      subtitle: T(context, 'settings.change_password_subtitle'),
       icon: Icons.lock_reset_rounded,
       trailing: Container(
         padding: EdgeInsets.all(8.w),
@@ -440,8 +440,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
   Widget _buildVideoQualityTile(BuildContext context, ThemeData theme) {
     return _buildSettingTile(
       context,
-      title: 'Video Çözünürlüğü',
-      subtitle: 'Kayıt kalitesi ve performans ayarları',
+      title: T(context, 'settings.video_quality'),
+      subtitle: T(context, 'settings.video_quality_subtitle'),
       icon: Icons.high_quality_rounded,
       trailing: Container(
         padding: EdgeInsets.all(8.w),
@@ -560,7 +560,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
                 SizedBox(width: 12.w),
                 Text(
-                  'Şifre Değiştir',
+                  T(context, 'settings.change_password_dialog_title'),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.sp,
@@ -576,8 +576,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   children: [
                     _buildDialogPasswordField(
                       controller: currentPasswordController,
-                      label: 'Mevcut Şifre',
-                      hint: 'Mevcut şifrenizi giriniz',
+                      label: T(context, 'settings.current_password'),
+                      hint: T(context, 'settings.current_password_hint'),
                       obscureText: obscureCurrentPassword,
                       onToggle: () => setState(() => obscureCurrentPassword = !obscureCurrentPassword),
                       theme: theme,
@@ -585,8 +585,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     SizedBox(height: 16.h),
                     _buildDialogPasswordField(
                       controller: newPasswordController,
-                      label: 'Yeni Şifre',
-                      hint: 'Yeni şifrenizi giriniz',
+                      label: T(context, 'settings.new_password'),
+                      hint: T(context, 'settings.new_password_hint'),
                       obscureText: obscureNewPassword,
                       onToggle: () => setState(() => obscureNewPassword = !obscureNewPassword),
                       theme: theme,
@@ -594,8 +594,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     SizedBox(height: 16.h),
                     _buildDialogPasswordField(
                       controller: confirmPasswordController,
-                      label: 'Yeni Şifre Tekrar',
-                      hint: 'Yeni şifrenizi tekrar giriniz',
+                      label: T(context, 'settings.confirm_new_password'),
+                      hint: T(context, 'settings.new_password_confirm_hint'),
                       obscureText: obscureConfirmPassword,
                       onToggle: () => setState(() => obscureConfirmPassword = !obscureConfirmPassword),
                       theme: theme,
@@ -614,7 +614,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                           ),
                           SizedBox(width: 12.w),
                           Text(
-                            'Şifre değiştiriliyor...',
+                            T(context, 'settings.changing_password'),
                             style: TextStyle(
                               color: theme.primaryColor,
                               fontWeight: FontWeight.w500,
@@ -637,7 +637,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ),
                 child: Text(
-                  'İptal',
+                  T(context, 'settings.cancel'),
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -650,17 +650,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   if (currentPasswordController.text.isEmpty ||
                       newPasswordController.text.isEmpty ||
                       confirmPasswordController.text.isEmpty) {
-                    _showErrorMessage(context, 'Tüm alanları doldurunuz');
+                    _showErrorMessage(context, T(context, 'auth.fill_all_fields'));
                     return;
                   }
 
                   if (newPasswordController.text != confirmPasswordController.text) {
-                    _showErrorMessage(context, 'Şifreler eşleşmiyor');
+                    _showErrorMessage(context, T(context, 'auth.validation_passwords_mismatch'));
                     return;
                   }
 
                   if (newPasswordController.text.length < 6) {
-                    _showErrorMessage(context, 'Şifre en az 6 karakter olmalıdır');
+                    _showErrorMessage(context, T(context, 'auth.validation_password_min_length'));
                     return;
                   }
 
@@ -673,7 +673,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                         );
                     if (context.mounted) {
                       Navigator.pop(context);
-                      _showSuccessMessage(context, 'Şifre başarıyla değiştirildi');
+                      _showSuccessMessage(context, T(context, 'settings.password_changed'));
                     }
                   } catch (e) {
                     if (context.mounted) {
@@ -690,7 +690,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ),
                 ),
                 child: Text(
-                  'Değiştir',
+                  T(context, 'settings.change_button'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
