@@ -232,6 +232,10 @@
   "@profileAboutContent": {
     "description": "About content"
   },
+  "profile.settings_subtitle": "Manage app preferences",
+  "profile.user_info_subtitle": "Registration date and preferences",
+  "profile.help_subtitle": "Frequently asked questions",
+  "profile.about_subtitle": "About the application",
   "profileClose": "Close",
   "@profileClose": {
     "description": "Dialog close button"

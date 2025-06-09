@@ -686,14 +686,14 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
           {
             'icon': Icons.settings_outlined,
             'title': T(context, 'profile.settings'),
-            'subtitle': 'Uygulama ayarları',
+            'subtitle': T(context, 'profile.settings_subtitle'),
             'color': const Color(0xFF6366F1),
             'onTap': () => context.push('/settings'),
           },
           {
             'icon': Icons.info_outline_rounded,
             'title': 'Kullanıcı Bilgileri',
-            'subtitle': 'Kayıt tarihi ve tercihler',
+            'subtitle': T(context, 'profile.user_info_subtitle'),
             'color': const Color(0xFF8B5CF6),
             'onTap': () => _showUserInfoDialog(context, user),
           },
@@ -705,14 +705,14 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
           {
             'icon': Icons.help_outline_rounded,
             'title': T(context, 'profile.help'),
-            'subtitle': 'Sıkça sorulan sorular',
+            'subtitle': T(context, 'profile.help_subtitle'),
             'color': const Color(0xFFF59E0B),
             'onTap': () => context.push('/help'),
           },
           {
             'icon': Icons.info_outline_rounded,
             'title': T(context, 'profile.about'),
-            'subtitle': 'Uygulama hakkında',
+            'subtitle': T(context, 'profile.about_subtitle'),
             'color': const Color(0xFF06B6D4),
             'onTap': () => context.push('/about'),
           },
