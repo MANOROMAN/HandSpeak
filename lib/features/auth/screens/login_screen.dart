@@ -118,12 +118,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       final password = _passwordController.text;
       
       // Gerçek login işlemi yap
-      await authService.signInWithEmailAndPassword(
+      final cred = await authService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      
-      if (mounted) {
+
+      if (mounted && cred.user != null) {
+        final userData = await authService.getUserData();
+        if (userData != null && !userData.isEmailVerified) {
+          await authService.sendVerificationCode(email);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(T(context, 'auth.verification_code_sent')),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+          context.go('/email-verification', extra: {'email': email});
+          return;
+        }
+
         // User profile'ı refresh et
         await ref.read(userProvider.notifier).refreshUserProfile();
         // Ana sayfaya git
