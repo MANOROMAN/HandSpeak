@@ -1,0 +1,1 @@
+// NOT: Tüm authentication işlemleri core/services/auth_service.dart üzerinden yapılacak. Bu dosya sadece eski kodlar için tutuluyor olabilir. Eğer başka yerde kullanılmıyorsa silinebilir.

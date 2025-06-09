@@ -1,0 +1,357 @@
+{
+  "@@locale": "tr",
+  "appName": "El Konuşması",
+  "@appName": {
+    "description": "Uygulamanın adı"
+  },
+  "signIn": "Giriş Yap",
+  "@signIn": {
+    "description": "Giriş düğmesi ve ekran başlığı için metin"
+  },
+  "signUp": "Kayıt Ol",
+  "@signUp": {
+    "description": "Kayıt düğmesi ve ekran başlığı için metin"
+  },
+  "authLoginTitle": "Giriş Yap",
+  "@authLoginTitle": {
+    "description": "Giriş sayfası ana başlığı"
+  },
+  "authLoginSubtitle": "Hesabınıza giriş yapın",
+  "@authLoginSubtitle": {
+    "description": "Giriş sayfası alt başlığı"
+  },
+  "authEmailHint": "E-posta adresinizi girin",
+  "@authEmailHint": {
+    "description": "E-posta giriş alanı ipucu"
+  },
+  "authPasswordHint": "Şifrenizi girin",
+  "@authPasswordHint": {
+    "description": "Şifre giriş alanı ipucu"
+  },
+  "authForgotPassword": "Şifremi Unuttum",
+  "@authForgotPassword": {
+    "description": "Şifremi unuttum bağlantısı"
+  },
+  "authLoginButton": "Giriş Yap",
+  "@authLoginButton": {
+    "description": "Giriş düğmesi metni"
+  },
+  "authOrLoginWith": "veya ile giriş yap",
+  "@authOrLoginWith": {
+    "description": "Alternatif giriş seçenekleri metni"
+  },
+  "authNoAccount": "Hesabınız yok mu? Kayıt olun",
+  "@authNoAccount": {
+    "description": "Kayıt olma bağlantısı metni"
+  },
+  "authWelcomeMessage": "Tekrar hoş geldin, {name}!",
+  "@authWelcomeMessage": {
+    "description": "Başarılı giriş sonrası hoş geldin mesajı"
+  },
+  "email": "E-posta",
+  "@email": {
+    "description": "E-posta giriş alanı etiketi"
+  },
+  "password": "Şifre",
+  "@password": {
+    "description": "Şifre giriş alanı etiketi"
+  },
+  "confirmPassword": "Şifreyi Onayla",
+  "@confirmPassword": {
+    "description": "Şifre onaylama giriş alanı etiketi"
+  },
+  "settings": "Ayarlar",
+  "@settings": {
+    "description": "Ayarlar ekranı başlığı için metin"
+  },
+  "theme": "Tema",
+  "@theme": {
+    "description": "Tema seçimi etiketi"
+  },
+  "language": "Dil",
+  "@language": {
+    "description": "Dil seçimi etiketi"
+  },
+  "signOut": "Çıkış Yap",
+  "@signOut": {
+    "description": "Çıkış düğmesi için metin"
+  },
+  "about": "Hakkımızda",
+  "@about": {
+    "description": "Hakkımızda sayfa başlığı için metin"
+  },
+  "aboutAppSubtitle": "İşaret Dili Çeviri ve Öğrenme Platformu",
+  "@aboutAppSubtitle": {
+    "description": "Hakkımızda sayfasında uygulama alt başlığı"
+  },
+  "ourMission": "Misyonumuz",
+  "@ourMission": {
+    "description": "Misyon bölümü başlığı"
+  },
+  "missionDescription": "Hand Speak, işitme engelli bireyler ile işiten toplum arasındaki iletişim engellerini kaldırmayı hedefleyen, yenilikçi teknoloji çözümleri sunan bir platformdur. Amacımız, Türk İşaret Dili'ni herkes için erişilebilir hale getirmek ve toplumsal farkındalığı artırmaktır.",
+  "@missionDescription": {
+    "description": "Uygulamanın misyon açıklaması"
+  },
+  "ourVision": "Vizyonumuz",
+  "@ourVision": {
+    "description": "Vizyon bölümü başlığı"
+  },
+  "visionDescription": "Teknoloji ve yapay zeka desteğiyle, işaret dilini evrensel bir iletişim aracı haline getirerek, engelsiz bir dünya yaratmak. Gelecekte, her bireyin işaret dilini kolayca öğrenebileceği ve kullanabileceği bir toplum inşa etmek.",
+  "@visionDescription": {
+    "description": "Uygulamanın vizyon açıklaması"
+  },
+  "ourFeatures": "Özelliklerimiz",
+  "@ourFeatures": {
+    "description": "Özellikler bölümü başlığı"
+  },
+  "featuresDescription": "• Gerçek zamanlı işaret dili çevirisi\n• AI destekli hareket tanıma teknolojisi\n• Kapsamlı öğrenme modülleri\n• Interaktif alıştırmalar ve testler\n• Çoklu dil desteği\n• Offline kullanım imkanı\n• Topluluk tabanlı içerik geliştirme",
+  "@featuresDescription": {
+    "description": "Uygulama özellikleri listesi"
+  },
+  "ourTechnology": "Teknolojimiz",
+  "@ourTechnology": {
+    "description": "Teknoloji bölümü başlığı"
+  },
+  "technologyDescription": "Hand Speak, gelişmiş makine öğrenmesi algoritmaları, bilgisayarlı görü teknolojileri ve doğal dil işleme yetenekleriyle güçlendirilmiştir. Flutter framework'ü ile geliştirilmiş cross-platform uygulamamız, Firebase altyapısı ile desteklenmektedir.",
+  "@technologyDescription": {
+    "description": "Kullanılan teknoloji açıklaması"
+  },
+  "socialImpact": "Toplumsal Etkimiz",
+  "@socialImpact": {
+    "description": "Toplumsal etki bölümü başlığı"
+  },
+  "impactDescription": "Türkiye'de yaklaşık 2.5 milyon işitme engelli birey yaşamaktadır. Hand Speak ile bu bireylerin günlük yaşamlarında karşılaştıkları iletişim engellerini minimuma indirmeyi, eğitim ve iş olanaklarına erişimlerini artırmayı hedefliyoruz.",
+  "@impactDescription": {
+    "description": "Toplumsal etki açıklaması"
+  },
+  "contact": "İletişim",
+  "@contact": {
+    "description": "İletişim bölümü başlığı"
+  },
+  "contactUs": "Bizimle iletişime geçin:",
+  "@contactUs": {
+    "description": "İletişim davet metni"
+  },
+  "ourLocation": "Konumumuz",
+  "@ourLocation": {
+    "description": "Konum bölümü başlığı"
+  },
+  "officeAddress": "İstanbul, Türkiye",
+  "@officeAddress": {
+    "description": "Ofis adresi"
+  },
+  "version": "Sürüm 1.0.0 - 2024",
+  "@version": {
+    "description": "Uygulama sürüm bilgisi"
+  },
+  "camera": "Kamera",
+  "@camera": {
+    "description": "Kamera ekranı ve izinleri için metin"
+  },
+  "gallery": "Galeri",
+  "@gallery": {
+    "description": "Galeri ekranı ve izinleri için metin"
+  },
+  "translate": "Çevir",
+  "@translate": {
+    "description": "Çeviri düğmesi ve ekran başlığı için metin"
+  },
+  "learning": "Öğrenme",
+  "@learning": {
+    "description": "Öğrenme ekranı başlığı için metin"
+  },
+  "profileChangePassword": "Şifre Değiştir",
+  "@profileChangePassword": {
+    "description": "Şifre değiştirme ekranı için metin"
+  },
+  "profileUnverified": "Doğrulanmamış",
+  "@profileUnverified": {
+    "description": "Doğrulanmamış kullanıcı durumu için metin"
+  },
+  "translatorTitle": "İşaret Dili Çevirmeni",
+  "@translatorTitle": {
+    "description": "Çevirmen ekranı için başlık"
+  },
+  "translatorCamera": "Kamera",
+  "@translatorCamera": {
+    "description": "Kamera düğmesi için metin"
+  },
+  "translatorGallery": "Galeri",
+  "@translatorGallery": {
+    "description": "Galeri düğmesi için metin"
+  },
+  "translatorCameraInstruction": "Ellerinizi ekrana yerleştirin ve işaret dili hareketleri yapın",
+  "@translatorCameraInstruction": {
+    "description": "Çevirmende kamera kullanımı için talimatlar"
+  },
+  "translatorRecord": "Kaydet",
+  "@translatorRecord": {
+    "description": "Kayıt düğmesi için metin"
+  },
+  "translatorStopRecording": "Durdur",
+  "@translatorStopRecording": {
+    "description": "Kaydı durdurma düğmesi için metin"
+  },
+  "translatorVideoUploaded": "Video başarıyla yüklendi! Çeviri için işlenecek.",
+  "@translatorVideoUploaded": {
+    "description": "Video başarıyla yüklendiğinde gösterilen mesaj"
+  },
+  "translatorVideoSaving": "Video kaydediliyor",
+  "@translatorVideoSaving": {
+    "description": "Video kaydedilirken gösterilen mesaj"
+  },
+  "translatorRetry": "Tekrar Dene",
+  "@translatorRetry": {
+    "description": "Tekrar deneme düğmesi için metin"
+  },
+  "profileHelp": "Yardım",
+  "@profileHelp": {
+    "description": "Yardım menü başlığı"
+  },
+  "profileHelpContent": "Bu uygulama, işaret dili çevirisi ve öğrenimi için tasarlanmıştır. Daha fazla bilgi için destek ekibimize ulaşabilirsiniz.",
+  "@profileHelpContent": {
+    "description": "Yardım içeriği"
+  },
+  "profileAbout": "Hakkında",
+  "@profileAbout": {
+    "description": "Hakkında menü başlığı"
+  },
+  "profileAboutContent": "Hand Speak, işaret dili öğrenimi ve çevirisi için yenilikçi bir uygulamadır. Daha fazla bilgi için web sitemizi ziyaret edin.",
+  "@profileAboutContent": {
+    "description": "Hakkında içeriği"
+  },
+  "profileClose": "Kapat",
+  "permissionsRequestTitle": "İzinler Gerekli",
+  "permissionsRequestMessage": "Kamera ve mikrofon izinleri çeviri özelliği için gereklidir",
+  "generalCancel": "İptal",
+  "generalSettings": "Ayarlar",
+  "translatorTitle": "İşaret Dili Çevirici",
+  "translatorGallery": "Galeri",
+  "translatorStopRecording": "Durdur",
+  "translatorRecord": "Kaydet",
+  "homeTranslation": "Çeviri",
+  "homeLearn": "Öğren",
+  "homeProfile": "Profil",
+  "learnTitle": "İşaret Dili Öğrenimi",
+  "learnDescription": "Türk İşaret Dili'ni öğrenmek için aşağıdaki kategorilerden birini seçin",
+  "learnAlphabet": "Alfabe",
+  "learnAlphabetDesc": "İşaret dili alfabesini öğrenin",
+  "learnNumbers": "Sayılar",
+  "learnNumbersDesc": "İşaret dili sayılarını öğrenin",
+  "learnCommonPhrases": "Yaygın İfadeler",
+  "learnCommonPhrasesDesc": "Günlük yaşamda kullanılan ifadeleri öğrenin",
+  "learnDailyWords": "Günlük Kelimeler",
+  "learnDailyWordsDesc": "Günlük hayatta kullanılan kelimeleri öğrenin",
+  "learnResearch": "Araştırma Sitesi",
+  "learnResearchDesc": "İşaret dili araştırma platformu",
+  "learnQuiz": "Test ve Alıştırmalar",
+  "learnQuizDesc": "Bilgilerinizi test edin",
+  "profileLoginRequired": "Profil sayfası için giriş yapmanız gerekiyor",
+  "profileLoginButton": "Giriş Yap",
+  "profileTitle": "Profil",
+  "profileVerified": "Doğrulanmış",
+  "profileUnverified": "Doğrulanmamış",
+  "profileEditProfile": "Profili Düzenle",
+  "profileChangePassword": "Şifre Değiştir",
+  "profileSettings": "Ayarlar",
+  "profileHelp": "Yardım",
+  "profileAbout": "Hakkında",
+  "profileMyVideos": "Videolarım",
+  "profileLogout": "Çıkış Yap",
+  "app_name": "Hand Speak",
+  "auth.login_title": "Giriş Yap",
+  "auth.login_subtitle": "Hesabınızla giriş yapın",
+  "auth.register_title": "Kayıt Ol",
+  "auth.register_subtitle": "Yeni hesap oluşturun",
+  "auth.email_hint": "E-posta adresiniz",
+  "auth.password_hint": "Şifreniz",
+  "auth.first_name_hint": "Adınız",
+  "auth.last_name_hint": "Soyadınız",
+  "auth.confirm_password_hint": "Şifrenizi tekrar girin",
+  "auth.login_button": "Giriş Yap",
+  "auth.register_button": "Kayıt Ol",
+  "auth.forgot_password": "Şifremi Unuttum",
+  "auth.or_login_with": "veya şununla giriş yap",
+  "auth.no_account": "Hesabınız yok mu? Kayıt olun",
+  "auth.have_account": "Zaten hesabınız var mı? Giriş yapın",
+  "auth.email_required": "E-posta adresi gerekli",
+  "auth.welcome_message": "Hoş geldiniz!",
+  "home.translation": "Çeviri",
+  "home.learn": "Öğren",
+  "home.profile": "Profil",
+  "translator.title": "İşaret Dili Çevirisi",
+  "translator.gallery": "Galeri",
+  "translator.record": "Kayıt Başlat",
+  "translator.stop_recording": "Kaydı Durdur",
+  "translatorVideoSaving": "Video kaydediliyor...",
+  "learn.title": "İşaret Dili Öğrenin",
+  "learn.description": "Türk İşaret Dili'ni adım adım öğrenin",
+  "learn.alphabet": "Alfabe",
+  "learn.alphabet_desc": "A-Z harflerini öğrenin",
+  "learn.numbers": "Sayılar",
+  "learn.numbers_desc": "0-9 sayılarını öğrenin",
+  "learn.common_phrases": "Yaygın İfadeler",
+  "learn.common_phrases_desc": "Günlük kullanılan ifadeler",
+  "learn.daily_words": "Günlük Kelimeler",
+  "learn.daily_words_desc": "Her gün yeni kelimeler",
+  "learn.research": "Araştırma",
+  "learn.research_desc": "İşaret dili araştırmaları",
+  "learn.quiz": "Test",
+  "learn.quiz_desc": "Bilginizi test edin",
+  "profile.title": "Profil",
+  "profile.login_required": "Profili görüntülemek için giriş yapın",
+  "profile.login_button": "Giriş Yap",
+  "profile.verified": "Doğrulanmış",
+  "profile.unverified": "Doğrulanmamış",
+  "profile.edit_profile": "Profili Düzenle",
+  "profile.change_password": "Şifre Değiştir",
+  "profile.settings": "Ayarlar",
+  "profile.help": "Yardım",
+  "profile.about": "Hakkında",
+  "profile.my_videos": "Videolarım",
+  "profile.logout": "Çıkış Yap",
+  "common.cancel": "İptal",
+  "general.settings": "Ayarlar",
+  "permissions.request_title": "İzinler Gerekli",
+  "permissions.request_message": "Kamera ve mikrofon izinleri gerekli",
+  "settings.video_quality": "Video Kalitesi",
+  "settings.video_resolution": "Video Çözünürlüğü",
+  "settings.video_resolution_description": "Kayıt için çözünürlük seçin",
+  "settings.higher_resolution_note": "Daha yüksek çözünürlük daha fazla bellek kullanır ve performansı etkileyebilir.",
+  "settings.audio_recording": "Ses Kaydetme",
+  "settings.enable_audio": "Sesi Etkinleştir",
+  "settings.enable_audio_description": "Video ile birlikte ses de kaydet",
+  "settings.reset_to_default": "Varsayılana Döndür",
+  "settings.save": "Kaydet",
+  "myVideosTitle": "Videolarım",
+  "@myVideosTitle": {
+    "description": "Videolarım ekranı başlığı"
+  },
+  "myVideosNoVideos": "Henüz hiç videonuz yok",
+  "@myVideosNoVideos": {
+    "description": "Kullanıcının hiç videosu olmadığında gösterilen metin"
+  },
+  "myVideosRecordNew": "Yeni Video Kaydet",
+  "@myVideosRecordNew": {
+    "description": "Yeni video kaydet düğmesi için metin"
+  },
+  "myVideosPlay": "Oynat",
+  "@myVideosPlay": {
+    "description": "Oynat düğmesi için metin"
+  },
+  "myVideosDelete": "Sil",
+  "@myVideosDelete": {
+    "description": "Sil düğmesi için metin"
+  },
+  "myVideosTranslation": "Çeviri",
+  "@myVideosTranslation": {
+    "description": "Video çevirisi etiketi"
+  },
+  "myVideosProcessing": "Çeviri işleniyor...",
+  "@myVideosProcessing": {
+    "description": "Video çeviri için işlenirken gösterilen metin"
+  },
+  "cameraPreparing": "Kamera hazırlanıyor...",
+  "recordingInProgress": "Kayıt yapılıyor...",
+  "effects": "Efektler"
+}
