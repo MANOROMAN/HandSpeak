@@ -133,6 +133,8 @@
         "validation_last_name_required": "Please enter your last name",
         "validation_email_required": "Please enter your email address",
         "validation_email_invalid": "Please enter a valid email address",
+        "validation_birth_date_required": "Please select your birth date",
+        "validation_birth_date_invalid": "Please enter a valid birth date",
         "verify_email": "Verify Email",
         "verification_title": "Email Verification",
         "verification_description": "We've sent a verification code to {email}. Please enter the 6-digit code below.",

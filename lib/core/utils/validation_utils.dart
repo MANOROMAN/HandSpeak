@@ -71,4 +71,18 @@ class ValidationUtils {
     }
     return null;
   }
+
+  /// Validates a [DateTime] value for a birth date field.
+  ///
+  /// Returns a translation key if the value is null or represents a date in
+  /// the future, otherwise `null`.
+  static String? validateBirthDate(BuildContext context, DateTime? value) {
+    if (value == null) {
+      return T(context, 'auth.validation_birth_date_required');
+    }
+    if (value.isAfter(DateTime.now())) {
+      return T(context, 'auth.validation_birth_date_invalid');
+    }
+    return null;
+  }
 }
