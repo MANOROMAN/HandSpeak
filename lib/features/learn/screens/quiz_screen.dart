@@ -142,7 +142,20 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
 
   void _generateQuestions() {
     final signLanguageType = ref.read(signLanguageProvider);
-    final examples = selectedCategory.examples?[signLanguageType] ?? [];
+    List<QuizExample> examples = [];
+    
+    if (widget.categoryId == 'all') {
+      // Mix questions from all categories
+      for (var category in quizCategories) {
+        if (category.id != 'all' && category.examples != null) {
+          final categoryExamples = category.examples![signLanguageType] ?? [];
+          examples.addAll(categoryExamples.map((e) => e));
+        }
+      }
+      examples.shuffle();
+    } else {
+      examples = selectedCategory.examples?[signLanguageType] ?? [];
+    }
     
     if (examples.isEmpty) return;
 
@@ -181,7 +194,9 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
         imageUrl: 'assets/signs/${selectedCategory.id}/${example.word.toLowerCase()}.png',
         videoUrl: 'assets/videos/${selectedCategory.id}/${example.word.toLowerCase()}.mp4',
       ));
-    }    // Limit questions based on category
+    }
+    
+    // Limit questions based on category
     final estimatedQuestions = selectedCategory.estimatedQuestions ?? 10;
     if (_questions.length > estimatedQuestions) {
       _questions.shuffle();
@@ -334,7 +349,7 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
 
   Widget _buildStartScreen(SignLanguageType signLanguageType) {
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: EdgeInsets.all(24.w),
         child: Column(
           children: [
@@ -377,179 +392,179 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
               ],
             ),
             
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Category Icon
-                  ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: Container(
-                      width: 120.w,
-                      height: 120.w,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            selectedCategory.color,
-                            selectedCategory.color.withOpacity(0.7),
-                          ],
-                        ),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: selectedCategory.color.withOpacity(0.3),
-                            blurRadius: 30,
-                            offset: const Offset(0, 15),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        selectedCategory.icon,
-                        size: 64.sp,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  
-                  SizedBox(height: 32.h),
-                  
-                  // Category Name
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Text(
-                      selectedCategory.nameKey,
-                      style: TextStyle(
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1F2937),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 12.h),
-                  
-                  // Description
-                  Text(
-                    selectedCategory.descriptionKey,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  
-                  SizedBox(height: 40.h),
-                  
-                  // Quiz Info Cards
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildInfoCard(
-                          icon: Icons.quiz_rounded,
-                          title: 'Sorular',
-                          value: '${_questions.length}',
-                          color: selectedCategory.color,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: _buildInfoCard(
-                          icon: Icons.timer_rounded,
-                          title: 'Süre',
-                          value: '${_questions.length * 30}s',
-                          color: const Color(0xFFF59E0B),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: _buildInfoCard(                          icon: _getDifficultyIcon(selectedCategory.difficultyLevel ?? 'medium'),
-                          title: 'Zorluk',
-                          value: _getDifficultyText(selectedCategory.difficultyLevel ?? 'medium'),
-                          color: _getDifficultyColor(selectedCategory.difficultyLevel ?? 'medium'),
-                        ),
-                      ),
+            SizedBox(height: 40.h),
+            
+            // Category Icon
+            ScaleTransition(
+              scale: _scaleAnimation,
+              child: Container(
+                width: 120.w,
+                height: 120.w,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      selectedCategory.color,
+                      selectedCategory.color.withOpacity(0.7),
                     ],
                   ),
-                  
-                  SizedBox(height: 40.h),
-                  
-                  // Skills Section
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(20.w),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.black.withOpacity(0.3)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(20.r),
-                      border: Border.all(
-                        color: selectedCategory.color.withOpacity(0.2),
-                      ),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: selectedCategory.color.withOpacity(0.3),
+                      blurRadius: 30,
+                      offset: const Offset(0, 15),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ],
+                ),
+                child: Icon(
+                  selectedCategory.icon,
+                  size: 64.sp,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            
+            SizedBox(height: 32.h),
+            
+            // Category Name
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: Text(
+                selectedCategory.nameKey,
+                style: TextStyle(
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFF1F2937),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            
+            SizedBox(height: 12.h),
+            
+            // Description
+            Text(
+              selectedCategory.descriptionKey,
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            
+            SizedBox(height: 40.h),
+            
+            // Quiz Info Cards
+            Row(
+              children: [
+                Expanded(
+                  child: _buildInfoCard(
+                    icon: Icons.quiz_rounded,
+                    title: 'Sorular',
+                    value: '${_questions.length}',
+                    color: selectedCategory.color,
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: _buildInfoCard(
+                    icon: Icons.timer_rounded,
+                    title: 'Süre',
+                    value: '${_questions.length * 30}s',
+                    color: const Color(0xFFF59E0B),
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: _buildInfoCard(
+                    icon: _getDifficultyIcon(selectedCategory.difficultyLevel ?? 'medium'),
+                    title: 'Zorluk',
+                    value: _getDifficultyText(selectedCategory.difficultyLevel ?? 'medium'),
+                    color: _getDifficultyColor(selectedCategory.difficultyLevel ?? 'medium'),
+                  ),
+                ),
+              ],
+            ),
+            
+            SizedBox(height: 40.h),
+            
+            // Skills Section
+            if (selectedCategory.skills != null && selectedCategory.skills!.isNotEmpty)
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(20.w),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black.withOpacity(0.3)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: selectedCategory.color.withOpacity(0.2),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.psychology_rounded,
-                              color: selectedCategory.color,
-                              size: 20.sp,
-                            ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              'Bu testte geliştireceğiniz beceriler',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                color: selectedCategory.color,
-                              ),
-                            ),
-                          ],
+                        Icon(
+                          Icons.psychology_rounded,
+                          color: selectedCategory.color,
+                          size: 20.sp,
                         ),
-                        SizedBox(height: 12.h),
-                        Wrap(
-                          spacing: 8.w,
-                          runSpacing: 6.h,
-                          children: (selectedCategory.skills ?? []).map((skill) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 6.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: selectedCategory.color.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(16.r),
-                                border: Border.all(
-                                  color: selectedCategory.color.withOpacity(0.3),
-                                ),
-                              ),
-                              child: Text(
-                                skill,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: selectedCategory.color,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            'Bu testte geliştireceğiniz beceriler',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: selectedCategory.color,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 12.h),
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 6.h,
+                      children: (selectedCategory.skills ?? []).map((skill) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: selectedCategory.color.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: Border.all(
+                              color: selectedCategory.color.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Text(
+                            skill,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: selectedCategory.color,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            
+            SizedBox(height: 40.h),
             
             // Start Button
             Container(
               width: double.infinity,
               height: 56.h,
-              margin: EdgeInsets.only(top: 24.h),
               child: ElevatedButton(
                 onPressed: _questions.isEmpty ? null : () {
                   _animationController.forward();
@@ -722,144 +737,142 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
                 begin: Offset(_slideAnimation.value, 0),
                 end: Offset.zero,
               ).animate(_questionController),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: EdgeInsets.all(20.w),
                 child: Column(
                   children: [
                     // Question Card
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(24.w),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              selectedCategory.color.withOpacity(0.1),
-                              selectedCategory.color.withOpacity(0.05),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(24.r),
-                          border: Border.all(
-                            color: selectedCategory.color.withOpacity(0.2),
-                            width: 2,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Bu işaret hangi kelimeyi ifade eder?',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : const Color(0xFF1F2937),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 24.h),
-                            
-                            // Sign Language Visual
-                            Container(
-                              width: 150.w,
-                              height: 150.w,
-                              decoration: BoxDecoration(
-                                color: selectedCategory.color.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.sign_language_rounded,
-                                    size: 80.sp,
-                                    color: selectedCategory.color,
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                                    decoration: BoxDecoration(
-                                      color: _getDifficultyColor(currentQuestion.difficulty),
-                                      borderRadius: BorderRadius.circular(12.r),
-                                    ),
-                                    child: Text(
-                                      _getDifficultyText(currentQuestion.difficulty),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 16.h),
-                            
-                            Text(
-                              currentQuestion.gestureDescription,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: selectedCategory.color,
-                                fontStyle: FontStyle.italic,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            
-                            if (_isAnswered) ...[
-                              SizedBox(height: 16.h),
-                              Container(
-                                padding: EdgeInsets.all(12.w),
-                                decoration: BoxDecoration(
-                                  color: (_selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                      ? Colors.green 
-                                      : Colors.red).withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                        ? Colors.green 
-                                        : Colors.red,
-                                  ),
-                                ),
-                                child: Text(
-                                  currentQuestion.description,
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                        ? Colors.green 
-                                        : Colors.red,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24.w),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            selectedCategory.color.withOpacity(0.1),
+                            selectedCategory.color.withOpacity(0.05),
                           ],
                         ),
+                        borderRadius: BorderRadius.circular(24.r),
+                        border: Border.all(
+                          color: selectedCategory.color.withOpacity(0.2),
+                          width: 2,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Bu işaret hangi kelimeyi ifade eder?',
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : const Color(0xFF1F2937),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 24.h),
+                          
+                          // Sign Language Visual
+                          Container(
+                            width: 150.w,
+                            height: 150.w,
+                            decoration: BoxDecoration(
+                              color: selectedCategory.color.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.sign_language_rounded,
+                                  size: 80.sp,
+                                  color: selectedCategory.color,
+                                ),
+                                SizedBox(height: 8.h),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: _getDifficultyColor(currentQuestion.difficulty),
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Text(
+                                    _getDifficultyText(currentQuestion.difficulty),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+                          
+                          Text(
+                            currentQuestion.gestureDescription,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: selectedCategory.color,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          
+                          if (_isAnswered) ...[
+                            SizedBox(height: 16.h),
+                            Container(
+                              padding: EdgeInsets.all(12.w),
+                              decoration: BoxDecoration(
+                                color: (_selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                                    ? Colors.green 
+                                    : Colors.red).withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(
+                                  color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                                      ? Colors.green 
+                                      : Colors.red,
+                                ),
+                              ),
+                              child: Text(
+                                currentQuestion.description,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                                      ? Colors.green 
+                                      : Colors.red,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                     
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 30.h),
                     
                     // Answer Options
-                    Expanded(
-                      flex: 2,
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12.w,
-                          mainAxisSpacing: 12.h,
-                          childAspectRatio: 2.5,
-                        ),
-                        itemCount: currentQuestion.options.length,
-                        itemBuilder: (context, index) {
-                          return _buildAnswerOption(currentQuestion, index);
-                        },
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12.w,
+                        mainAxisSpacing: 12.h,
+                        childAspectRatio: 2.5,
                       ),
+                      itemCount: currentQuestion.options.length,
+                      itemBuilder: (context, index) {
+                        return _buildAnswerOption(currentQuestion, index);
+                      },
                     ),
                   ],
                 ),
@@ -952,7 +965,7 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
                 child: Text(
                   question.options[index],
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                     color: _isAnswered 
                         ? Colors.white

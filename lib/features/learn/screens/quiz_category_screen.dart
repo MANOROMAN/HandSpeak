@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hand_speak/core/utils/translation_helper.dart' show T;
 import 'package:hand_speak/models/quiz_category_model.dart';
 import 'package:hand_speak/providers/sign_language_provider.dart';
 import 'package:hand_speak/features/learn/models/sign_language_video.dart';
@@ -29,11 +28,16 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
   bool _showLanguageDetails = false;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
+  
+  // Track quiz stats
+  Map<String, int> _categoryScores = {};
+  Map<String, int> _categoryAttempts = {};
 
   @override
   void initState() {
     super.initState();
     _initializeAnimations();
+    _loadQuizStats();
   }
 
   void _initializeAnimations() {
@@ -72,6 +76,15 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
     _fabController.forward();
   }
 
+  void _loadQuizStats() {
+    // In a real app, load from persistent storage
+    // For now, initialize with zeros
+    for (var category in quizCategories) {
+      _categoryScores[category.id] = 0;
+      _categoryAttempts[category.id] = 0;
+    }
+  }
+
   @override
   void dispose() {
     _headerController.dispose();
@@ -84,7 +97,8 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
   List<QuizCategory> get _filteredCategories {
     if (_searchQuery.isEmpty) {
       return quizCategories;
-    }    return quizCategories.where((category) =>
+    }
+    return quizCategories.where((category) =>
         category.nameKey.toLowerCase().contains(_searchQuery.toLowerCase()) ||
         category.descriptionKey.toLowerCase().contains(_searchQuery.toLowerCase()) ||
         (category.skills?.any((skill) => skill.toLowerCase().contains(_searchQuery.toLowerCase())) ?? false)
@@ -105,7 +119,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
       floatingActionButton: ScaleTransition(
         scale: _fabAnimation,
         child: FloatingActionButton.extended(
-          onPressed: () => _showQuickStartDialog(),
+          onPressed: () => _startQuickTest(),
           backgroundColor: const Color(0xFF667EEA),
           icon: const Icon(Icons.flash_on_rounded, color: Colors.white),
           label: Text(
@@ -122,7 +136,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
         slivers: [
           // Ultra Modern App Bar
           SliverAppBar(
-            expandedHeight: math.min(280.h, screenHeight * 0.4),
+            expandedHeight: math.min(280.h, screenHeight * 0.35),
             floating: false,
             pinned: true,
             stretch: true,
@@ -156,7 +170,6 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12.r),
@@ -176,7 +189,6 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                     ),
                     SizedBox(width: 8.w),
                     Container(
-                      padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12.r),
@@ -314,7 +326,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           ),
                           SizedBox(height: 8.h),
                           
-                          // Subtitle with Typewriter Effect
+                          // Subtitle
                           Text(
                             'Bilginizi sınayın ve becerilerinizi geliştirin',
                             style: TextStyle(
@@ -327,77 +339,78 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           SizedBox(height: 16.h),
                           
                           // Enhanced Language Indicator
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 10.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(25.r),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
-                                width: 1.5,
+                          if (_showLanguageDetails)
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 10.h,
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(25.r),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.3),
+                                  width: 1.5,
                                 ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 28.w,
-                                  height: 28.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        signLanguageType == SignLanguageType.turkish 
-                                          ? 'assets/images/tr.png' 
-                                          : 'assets/images/en.png',
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 28.w,
+                                    height: 28.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          signLanguageType == SignLanguageType.turkish 
+                                            ? 'assets/images/tr.png' 
+                                            : 'assets/images/en.png',
+                                        ),
+                                        fit: BoxFit.cover,
                                       ),
-                                      fit: BoxFit.cover,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        signLanguageType == SignLanguageType.turkish 
+                                          ? 'Türk İşaret Dili' 
+                                          : 'American Sign Language',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        signLanguageType == SignLanguageType.turkish ? 'TİD' : 'ASL',
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.8),
+                                          fontSize: 12.sp,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(width: 12.w),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      signLanguageType == SignLanguageType.turkish 
-                                        ? 'Türk İşaret Dili' 
-                                        : 'American Sign Language',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      signLanguageType == SignLanguageType.turkish ? 'TİD' : 'ASL',
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.8),
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -542,7 +555,8 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           return Transform.translate(
                             offset: Offset(0, 50 * (1 - value)),
                             child: Opacity(
-                              opacity: value,                              child: _buildUltraModernCategoryCard(
+                              opacity: value,
+                              child: _buildUltraModernCategoryCard(
                                 filteredCategories[index], 
                                 index,
                               ),
@@ -561,30 +575,16 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
     );
   }
 
-  void _showQuickStartDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-        title: Row(
-          children: [
-            Icon(Icons.flash_on_rounded, color: Colors.amber, size: 24.sp),
-            SizedBox(width: 8.w),
-            const Text('Hızlı Test'),
-          ],
-        ),
-        content: const Text('Bu özellik henüz geliştirme aşamasındadır.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Tamam'),
-          ),
-        ],
-      ),
-    );
+  void _startQuickTest() {
+    // Create a mixed quiz from all categories
+    context.push('/learn/quiz?category=all');
   }
 
   void _showStatsDialog() {
+    final totalAttempts = _categoryAttempts.values.fold(0, (a, b) => a + b);
+    final totalScore = _categoryScores.values.fold(0, (a, b) => a + b);
+    final averageScore = totalAttempts > 0 ? (totalScore / totalAttempts * 100).toStringAsFixed(1) : '0';
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -596,7 +596,37 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
             const Text('Test İstatistikleri'),
           ],
         ),
-        content: const Text('Bu özellik henüz geliştirme aşamasındadır.'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildStatRow('Toplam Test', totalAttempts.toString()),
+            SizedBox(height: 8.h),
+            _buildStatRow('Ortalama Başarı', '%$averageScore'),
+            SizedBox(height: 16.h),
+            Text(
+              'Kategori Başarıları:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+            ),
+            SizedBox(height: 8.h),
+            ...quizCategories.map((category) {
+              final attempts = _categoryAttempts[category.id] ?? 0;
+              final score = _categoryScores[category.id] ?? 0;
+              final percentage = attempts > 0 ? (score / attempts * 100).toStringAsFixed(0) : '0';
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: Row(
+                  children: [
+                    Icon(category.icon, size: 16.sp, color: category.color),
+                    SizedBox(width: 8.w),
+                    Expanded(child: Text(category.nameKey)),
+                    Text('%$percentage'),
+                  ],
+                ),
+              );
+            }).toList(),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -604,6 +634,23 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildStatRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: TextStyle(fontSize: 14.sp)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+      ],
     );
   }
 
@@ -644,6 +691,9 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
   Widget _buildUltraModernCategoryCard(QuizCategory category, int index) {
     final isExpanded = _expandedCategoryIndex == index;
     final signLanguageType = ref.watch(signLanguageProvider);
+    final attempts = _categoryAttempts[category.id] ?? 0;
+    final score = _categoryScores[category.id] ?? 0;
+    final percentage = attempts > 0 ? (score / attempts * 100).toStringAsFixed(0) : '0';
     
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -715,13 +765,35 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            category.nameKey,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                              color: category.color,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  category.nameKey,
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: category.color,
+                                  ),
+                                ),
+                              ),
+                              if (attempts > 0)
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Text(
+                                    '%$percentage',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                           SizedBox(height: 4.h),
                           Text(
@@ -730,7 +802,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                               fontSize: 13.sp,
                               color: Colors.grey[600],
                             ),
-                            maxLines: 1,
+                            maxLines: isExpanded ? 2 : 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -776,10 +848,54 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                             label: _getDifficultyText(category.difficultyLevel ?? 'medium'),
                             color: _getDifficultyColor(category.difficultyLevel ?? 'medium'),
                           ),
+                          if (attempts > 0) ...[
+                            SizedBox(width: 8.w),
+                            _buildInfoTag(
+                              icon: Icons.check_circle_rounded,
+                              label: '$attempts Test',
+                              color: Colors.green,
+                            ),
+                          ],
                         ],
                       ),
                       
                       SizedBox(height: 16.h),
+                      
+                      // Skills Section
+                      if (category.skills != null && category.skills!.isNotEmpty) ...[
+                        Text(
+                          'Geliştireceğiniz Beceriler:',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Wrap(
+                          spacing: 6.w,
+                          runSpacing: 6.h,
+                          children: category.skills!.map((skill) => Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: category.color.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: category.color.withOpacity(0.3),
+                              ),
+                            ),
+                            child: Text(
+                              skill,
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: category.color,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )).toList(),
+                        ),
+                        SizedBox(height: 16.h),
+                      ],
                       
                       // Language Selection
                       Row(
@@ -931,6 +1047,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
       default: return 'Bilinmiyor';
     }
   }
+
   Color _getDifficultyColor(String difficulty) {
     switch (difficulty) {
       case 'easy': return const Color(0xFF10B981);

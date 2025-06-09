@@ -6,6 +6,6 @@ class DailyWordsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const VideoListScreen(categoryId: 'daily_words');
+    return const ModernVideoListScreen(categoryId: 'daily_words');
   }
 }
