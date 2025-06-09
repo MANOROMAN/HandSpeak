@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hand_speak/core/widgets/auth_text_field.dart';
 import 'package:hand_speak/core/widgets/auth_button.dart';
 import 'package:hand_speak/core/utils/translation_helper.dart' show T;
+import 'package:hand_speak/core/utils/validation_utils.dart';
 import 'package:hand_speak/providers/auth_provider.dart';
 import 'package:hand_speak/providers/user_provider.dart';
 
@@ -24,6 +25,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  DateTime? _birthDate;
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -96,6 +98,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
+
+    final birthDateError =
+        ValidationUtils.validateBirthDate(context, _birthDate);
+    if (birthDateError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(birthDateError),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+      return;
+    }
 
     setState(() => _isLoading = true);
 

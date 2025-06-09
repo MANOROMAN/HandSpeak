@@ -132,6 +132,8 @@
         "validation_last_name_required": "Lütfen soyadınızı girin",
         "validation_email_required": "Lütfen e-posta adresinizi girin",
         "validation_email_invalid": "Lütfen geçerli bir e-posta adresi girin",
+        "validation_birth_date_required": "Lütfen doğum tarihinizi seçin",
+        "validation_birth_date_invalid": "Geçersiz doğum tarihi",
         "verify_email": "E-posta Doğrula",
         "verification_title": "E-posta Doğrulama",
         "verification_description": "{email} adresine doğrulama kodu gönderdik. Lütfen aşağıya 6 haneli kodu girin.",
