@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read and write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Videos collection - users can only access their own videos
+    match /videos/{videoId} {
+      // Create: userId alanı zorunlu ve kendi uid'si olmalı
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid;
+
+      // Read/Update/Delete: sadece kendi videosu üzerinde işlem yapabilir
+      allow read, update, delete: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // Public settings (if any)
+    match /settings/{document} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Email verification codes - rate limited and temporary
+    match /verification_codes/{email} {
+      allow create: if isValidEmail(email)
+        && request.resource.data.keys().hasAll(['code', 'expiresAt', 'attempts', 'createdAt']);
+      allow read, update: if isValidEmail(email);
+      allow delete: if true;
+    }
+
+    // Mail queue for sending emails
+    match /mail_queue/{document} {
+      allow create: if request.resource.data.keys().hasAll(['to', 'template', 'createdAt'])
+        && isValidEmail(request.resource.data.to);
+      allow read, write: if false;
+    }
+
+    function isValidEmail(email) {
+      return email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

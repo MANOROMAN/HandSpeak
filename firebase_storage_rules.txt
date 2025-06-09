@@ -1,0 +1,26 @@
+// Firebase Storage Security Rules - Firebase Console'da ayarlamanız gereken kurallar:
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Profil fotoğrafları için kurallar
+    match /profile_images/{userId}/{allPaths=**} {
+      allow read: if true; // Herkese okuma izni
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Video dosyaları için kurallar
+    match /videos/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId
+        && request.resource.size < 50 * 1024 * 1024; // Max 50MB
+    }
+    
+    // Diğer tüm dosyalar için varsayılan kural
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// Bu kuralları Firebase Console > Storage > Rules bölümünde yapıştırın

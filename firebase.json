@@ -1,0 +1,52 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "handspeak-ace26",
+          "appId": "1:231396145380:android:2182b89acc956c6fa254f1",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "handspeak-ace26",
+          "configurations": {
+            "android": "1:231396145380:android:2182b89acc956c6fa254f1",
+            "ios": "1:231396145380:ios:340ad0266b2976d3a254f1",
+            "macos": "1:231396145380:ios:340ad0266b2976d3a254f1",
+            "web": "1:231396145380:web:5cd84ef3d804f193a254f1",
+            "windows": "1:231396145380:web:f0bd92a627193feda254f1"
+          }
+        }
+      }
+    }
+  },
+  "functions": {
+    "source": "functions"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}

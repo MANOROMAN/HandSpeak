@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "231396145380",
+    "project_id": "handspeak-ace26",
+    "storage_bucket": "handspeak-ace26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231396145380:android:2182b89acc956c6fa254f1",
+        "android_client_info": {
+          "package_name": "com.example.hand_speak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231396145380-95kn0u8pj02l9ku6alav6f6fgkmklrut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hand_speak",
+            "certificate_hash": "0d72c52a1c72b55130e8b1a020583e37f36df6ce"
+          }
+        },
+        {
+          "client_id": "231396145380-pukspnjfg14appibvf5qqboc0pgupfje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlKcha3p9rGzU21MI6Pe1DedrCvGJRSAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231396145380-pukspnjfg14appibvf5qqboc0pgupfje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "231396145380-65mnfkk0rh0gf2i2foa4bj16hv1mdbr3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.handSpeak"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

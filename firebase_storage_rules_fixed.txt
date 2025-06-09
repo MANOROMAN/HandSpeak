@@ -1,0 +1,52 @@
+// Firebase Storage Security Rules - Düzeltilmiş Versiyon
+// Firebase Console > Storage > Rules bölümüne kopyalayın
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Profil fotoğrafları - kullanıcılar sadece kendi fotoğraflarını yükleyebilir
+    match /profile_images/{userId}/{allPaths=**} {
+      allow read: if true; // Profil fotoğrafları herkes tarafından görülebilir
+      allow write: if request.auth != null 
+        && request.auth.uid == userId
+        && request.resource.size < 5 * 1024 * 1024 // Max 5MB
+        && request.resource.contentType.matches('image/.*'); // Sadece resim dosyaları
+    }
+    
+    // Video dosyaları - sadece sahipler erişebilir
+    match /videos/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null 
+        && request.auth.uid == userId
+        && request.resource.size < 50 * 1024 * 1024 // Max 50MB
+        && request.resource.contentType.matches('video/.*'); // Sadece video dosyaları
+    }
+    
+    // Geçici dosyalar ve önbellek
+    match /temp/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Varsayılan kural - diğer tüm dosyalar yasaklanmış
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// KULLANIM TALİMATLARI:
+// 1. Firebase Console'a gidin: https://console.firebase.google.com
+// 2. Projenizi seçin (handspeak-ace26)
+// 3. Sol menüden "Storage" sekmesine tıklayın
+// 4. "Rules" sekmesine tıklayın
+// 5. Yukarıdaki kuralları kopyalayıp yapıştırın
+// 6. "Publish" butonuna tıklayın
+
+// GÜVENLIK AÇIKLAMALARI:
+// - Profil fotoğrafları herkese açık (read: true)
+// - Sadece dosya sahibi yükleyebilir (write: auth.uid == userId)
+// - Dosya boyutu sınırları var
+// - Sadece belirli dosya tiplerini kabul eder
+// - Geçersiz yollar otomatik olarak reddedilir

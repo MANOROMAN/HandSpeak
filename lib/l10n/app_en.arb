@@ -1,0 +1,318 @@
+{
+  "@@locale": "en",
+  "appName": "Hand Speak",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Text for sign in button and screen title"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Text for sign up button and screen title"
+  },
+  "authLoginTitle": "Sign In",
+  "@authLoginTitle": {
+    "description": "Login page main title"
+  },
+  "authLoginSubtitle": "Sign in to your account",
+  "@authLoginSubtitle": {
+    "description": "Login page subtitle"
+  },
+  "authEmailHint": "Enter your email address",
+  "@authEmailHint": {
+    "description": "Email input field hint"
+  },
+  "authPasswordHint": "Enter your password",
+  "@authPasswordHint": {
+    "description": "Password input field hint"
+  },
+  "authForgotPassword": "Forgot Password",
+  "@authForgotPassword": {
+    "description": "Forgot password link text"
+  },
+  "authLoginButton": "Sign In",
+  "@authLoginButton": {
+    "description": "Login button text"
+  },
+  "authOrLoginWith": "or sign in with",
+  "@authOrLoginWith": {
+    "description": "Alternative login options text"
+  },
+  "authNoAccount": "Don't have an account? Sign up",
+  "@authNoAccount": {
+    "description": "Sign up link text"
+  },
+  "authWelcomeMessage": "Welcome back, {name}!",
+  "@authWelcomeMessage": {
+    "description": "Welcome message after successful login"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Label for email input field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Label for password input field"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Label for password confirmation input field"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Text for settings screen title"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Label for theme selection"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Label for language selection"
+  },
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Text for sign out button"
+  },
+  "about": "About",
+  "@about": {
+    "description": "Text for about page title"
+  },
+  "aboutAppSubtitle": "Sign Language Translation and Learning Platform",
+  "@aboutAppSubtitle": {
+    "description": "Subtitle for the app in about page"
+  },
+  "ourMission": "Our Mission",
+  "@ourMission": {
+    "description": "Title for mission section"
+  },
+  "missionDescription": "Hand Speak is a platform that aims to remove communication barriers between hearing impaired individuals and the hearing community, offering innovative technology solutions. Our goal is to make Turkish Sign Language accessible to everyone and increase social awareness.",
+  "@missionDescription": {
+    "description": "Description of the app's mission"
+  },
+  "ourVision": "Our Vision",
+  "@ourVision": {
+    "description": "Title for vision section"
+  },
+  "visionDescription": "With the support of technology and artificial intelligence, to make sign language a universal communication tool and create a barrier-free world. To build a society where every individual can easily learn and use sign language in the future.",
+  "@visionDescription": {
+    "description": "Description of the app's vision"
+  },
+  "ourFeatures": "Our Features",
+  "@ourFeatures": {
+    "description": "Title for features section"
+  },
+  "featuresDescription": "• Real-time sign language translation\n• AI-powered motion recognition technology\n• Comprehensive learning modules\n• Interactive exercises and tests\n• Multi-language support\n• Offline usage capability\n• Community-based content development",
+  "@featuresDescription": {
+    "description": "List of app features"
+  },
+  "ourTechnology": "Our Technology",
+  "@ourTechnology": {
+    "description": "Title for technology section"
+  },
+  "technologyDescription": "Hand Speak is powered by advanced machine learning algorithms, computer vision technologies and natural language processing capabilities. Our cross-platform application developed with Flutter framework is supported by Firebase infrastructure.",
+  "@technologyDescription": {
+    "description": "Description of the technology used"
+  },
+  "socialImpact": "Social Impact",
+  "@socialImpact": {
+    "description": "Title for social impact section"
+  },
+  "impactDescription": "Approximately 2.5 million hearing impaired individuals live in Turkey. With Hand Speak, we aim to minimize the communication barriers these individuals face in their daily lives and increase their access to education and job opportunities.",
+  "@impactDescription": {
+    "description": "Description of social impact"
+  },
+  "contact": "Contact",
+  "@contact": {
+    "description": "Title for contact section"
+  },
+  "contactUs": "Contact us:",
+  "@contactUs": {
+    "description": "Contact invitation text"
+  },
+  "ourLocation": "Our Location",
+  "@ourLocation": {
+    "description": "Title for location section"
+  },
+  "officeAddress": "Istanbul, Turkey",
+  "@officeAddress": {
+    "description": "Office address"
+  },
+  "version": "Version 1.0.0 - 2024",
+  "@version": {
+    "description": "App version information"
+  },
+  "camera": "Camera",
+  "@camera": {
+    "description": "Text for camera screen and permissions"
+  },
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Text for gallery screen and permissions"
+  },
+  "translate": "Translate",
+  "@translate": {
+    "description": "Text for translate button and screen title"
+  },
+  "learning": "Learning",
+  "@learning": {
+    "description": "Text for learning screen title"
+  },
+  "profileChangePassword": "Change Password",
+  "@profileChangePassword": {
+    "description": "Text for change password screen"
+  },
+  "profileUnverified": "Unverified",
+  "@profileUnverified": {
+    "description": "Text for unverified user status"
+  },
+  "translatorTitle": "Sign Language Translator",
+  "@translatorTitle": {
+    "description": "Title for translator screen"
+  },
+  "translatorCamera": "Camera",
+  "@translatorCamera": {
+    "description": "Text for camera button"
+  },
+  "translatorGallery": "Gallery",
+  "@translatorGallery": {
+    "description": "Text for gallery button"
+  },
+  "translatorCameraInstruction": "Position your hands in the frame and make sign language gestures",
+  "@translatorCameraInstruction": {
+    "description": "Instructions for using camera in translator"
+  },
+  "translatorRecord": "Record",
+  "@translatorRecord": {
+    "description": "Text for record button"
+  },
+  "translatorStopRecording": "Stop",
+  "@translatorStopRecording": {
+    "description": "Text for stop recording button"
+  },
+  "translatorVideoUploaded": "Video uploaded successfully! It will be processed for translation.",
+  "@translatorVideoUploaded": {
+    "description": "Message shown when video is successfully uploaded"
+  },
+  "translatorRetry": "Retry",
+  "@translatorRetry": {
+    "description": "Text for retry button"
+  },
+  "profileHelp": "Help",
+  "@profileHelp": {
+    "description": "Help menu title"
+  },
+  "profileHelpContent": "This application is designed for sign language translation and learning. For more information, please contact our support team.",
+  "@profileHelpContent": {
+    "description": "Help content"
+  },
+  "profileAbout": "About",
+  "@profileAbout": {
+    "description": "About menu title"
+  },
+  "profileAboutContent": "Hand Speak is an innovative application for sign language learning and translation. For more information, visit our website.",
+  "@profileAboutContent": {
+    "description": "About content"
+  },
+  "profileClose": "Close",
+  "@profileClose": {
+    "description": "Dialog close button"
+  },
+  "myVideosTitle": "My Videos",
+  "@myVideosTitle": {
+    "description": "Title for my videos screen"
+  },
+  "myVideosNoVideos": "You don't have any videos yet",
+  "@myVideosNoVideos": {
+    "description": "Text shown when user has no videos"
+  },
+  "myVideosRecordNew": "Record New Video",
+  "@myVideosRecordNew": {
+    "description": "Text for record new video button"
+  },
+  "myVideosPlay": "Play",
+  "@myVideosPlay": {
+    "description": "Text for play button"
+  },
+  "myVideosDelete": "Delete",
+  "@myVideosDelete": {
+    "description": "Text for delete button"
+  },
+  "myVideosTranslation": "Translation",
+  "@myVideosTranslation": {
+    "description": "Label for video translation"
+  },
+  "myVideosProcessing": "Processing translation...",
+  "@myVideosProcessing": {
+    "description": "Text shown when video is being processed for translation"
+  },
+  "profileMyVideos": "My Videos",
+  "@profileMyVideos": {
+    "description": "Text for my videos menu item in profile"
+  },
+  "homeLearn": "Learn",
+  "@homeLearn": {
+    "description": "Text for learn tab in home screen"
+  },
+  "learnTitle": "Sign Language Learning",
+  "@learnTitle": {
+    "description": "Learn tab main title"
+  },
+  "learnDescription": "Choose a category below to learn Turkish Sign Language",
+  "@learnDescription": {
+    "description": "Learn tab description"
+  },
+  "learnAlphabet": "Alphabet",
+  "@learnAlphabet": {
+    "description": "Alphabet learning category"
+  },
+  "learnAlphabetDesc": "Learn sign language alphabet",
+  "@learnAlphabetDesc": {
+    "description": "Alphabet category description"
+  },
+  "learnNumbers": "Numbers",
+  "@learnNumbers": {
+    "description": "Numbers learning category"
+  },
+  "learnNumbersDesc": "Learn sign language numbers",
+  "@learnNumbersDesc": {
+    "description": "Numbers category description"
+  },
+  "learnCommonPhrases": "Common Phrases",
+  "@learnCommonPhrases": {
+    "description": "Common phrases learning category"
+  },
+  "learnCommonPhrasesDesc": "Learn daily life expressions",
+  "@learnCommonPhrasesDesc": {
+    "description": "Common phrases category description"
+  },
+  "learnDailyWords": "Daily Words",
+  "@learnDailyWords": {
+    "description": "Daily words learning category"
+  },
+  "learnDailyWordsDesc": "Learn words used in daily life",
+  "@learnDailyWordsDesc": {
+    "description": "Daily words category description"
+  },
+  "learnResearch": "Research Website",
+  "@learnResearch": {
+    "description": "Research website category"
+  },
+  "learnResearchDesc": "Sign language research platform",
+  "@learnResearchDesc": {
+    "description": "Research category description"
+  },
+  "learnQuiz": "Tests and Exercises",
+  "@learnQuiz": {
+    "description": "Quiz and exercises category"
+  },
+  "learnQuizDesc": "Test your knowledge",
+  "@learnQuizDesc": {
+    "description": "Quiz category description"
+  },
+  "cameraPreparing": "Camera is preparing...",
+  "recordingInProgress": "Recording...",
+  "effects": "Effects"
+}
