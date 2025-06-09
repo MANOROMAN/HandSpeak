@@ -275,54 +275,64 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           SizedBox(height: 20.h),
                           
                           // Quiz Icon with Pulsing Animation
-                          FadeTransition(
-                            opacity: _fadeAnimation,
-                            child: ScaleTransition(
-                              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-                                CurvedAnimation(parent: _headerController, curve: Curves.elasticOut)
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.all(24.w),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white.withOpacity(0.15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 25,
-                                      offset: const Offset(0, 12),
+                          AnimatedBuilder(
+                            animation: _fadeAnimation,
+                            builder: (context, child) {
+                              return Opacity(
+                                opacity: _fadeAnimation.value.clamp(0.0, 1.0),
+                                child: ScaleTransition(
+                                  scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                                    CurvedAnimation(parent: _headerController, curve: Curves.elasticOut)
+                                  ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(24.w),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white.withOpacity(0.15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 25,
+                                          offset: const Offset(0, 12),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                    child: Icon(
+                                      Icons.quiz_rounded,
+                                      size: 48.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.quiz_rounded,
-                                  size: 48.sp,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                           SizedBox(height: 20.h),
                           
                           // Animated Title
-                          FadeTransition(
-                            opacity: _headerAnimation,
-                            child: Text(
-                              'Test & Pratik',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32.sp,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 4,
+                          AnimatedBuilder(
+                            animation: _headerAnimation,
+                            builder: (context, child) {
+                              return Opacity(
+                                opacity: _headerAnimation.value.clamp(0.0, 1.0),
+                                child: Text(
+                                  'Test & Pratik',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.2,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        offset: const Offset(0, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
                           SizedBox(height: 8.h),
                           
@@ -368,21 +378,19 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                                     height: 28.w,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          signLanguageType == SignLanguageType.turkish 
-                                            ? 'assets/images/tr.png' 
-                                            : 'assets/images/en.png',
+                                      color: signLanguageType == SignLanguageType.turkish 
+                                          ? Colors.red 
+                                          : Colors.blue,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        signLanguageType == SignLanguageType.turkish ? 'TR' : 'US',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        fit: BoxFit.cover,
                                       ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
                                     ),
                                   ),
                                   SizedBox(width: 12.w),
@@ -446,7 +454,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              '${filteredCategories.length} kategori • ${_getTotalQuestions()} soru',
+                              '${filteredCategories.length} kategori • ${_getTotalQuestions(filteredCategories)} soru',
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Colors.grey[600],
@@ -547,6 +555,8 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                     _buildNoResultsView(),
                   ] else ...[
                     ...List.generate(filteredCategories.length, (index) {
+                      final category = filteredCategories[index];
+                      final categoryIndex = quizCategories.indexOf(category);
                       return TweenAnimationBuilder<double>(
                         tween: Tween(begin: 0.0, end: 1.0),
                         duration: Duration(milliseconds: 600 + (index * 100)),
@@ -555,10 +565,10 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           return Transform.translate(
                             offset: Offset(0, 50 * (1 - value)),
                             child: Opacity(
-                              opacity: value,
+                              opacity: value.clamp(0.0, 1.0),
                               child: _buildUltraModernCategoryCard(
-                                filteredCategories[index], 
-                                index,
+                                category, 
+                                categoryIndex,
                               ),
                             ),
                           );
@@ -577,7 +587,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
 
   void _startQuickTest() {
     // Create a mixed quiz from all categories
-    context.push('/learn/quiz?category=all');
+    context.push('/learn/quiz', extra: {'category': 'all'});
   }
 
   void _showStatsDialog() {
@@ -694,6 +704,9 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
     final attempts = _categoryAttempts[category.id] ?? 0;
     final score = _categoryScores[category.id] ?? 0;
     final percentage = attempts > 0 ? (score / attempts * 100).toStringAsFixed(0) : '0';
+    
+    // Get actual question count from examples
+    final questionCount = category.examples?[signLanguageType]?.length ?? 0;
     
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -839,7 +852,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                         children: [
                           _buildInfoTag(
                             icon: Icons.quiz_rounded,
-                            label: '${category.estimatedQuestions ?? 0} Soru',
+                            label: '$questionCount Soru',
                             color: category.color,
                           ),
                           SizedBox(width: 8.w),
@@ -953,9 +966,9 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            context.push('/learn/quiz?category=${category.id}');
-                          },
+                          onPressed: questionCount > 0 ? () {
+                            context.push('/learn/quiz', extra: {'category': category.id});
+                          } : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: category.color,
                             foregroundColor: Colors.white,
@@ -966,7 +979,7 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                             elevation: 4,
                           ),
                           child: Text(
-                            'Teste Başla',
+                            questionCount > 0 ? 'Teste Başla' : 'Sorular Hazırlanıyor...',
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -989,10 +1002,11 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
     );
   }
 
-  int _getTotalQuestions() {
-    return quizCategories.fold(
+  int _getTotalQuestions(List<QuizCategory> categories) {
+    final signLanguageType = ref.read(signLanguageProvider);
+    return categories.fold(
       0, 
-      (sum, category) => sum + (category.estimatedQuestions ?? 0)
+      (sum, category) => sum + (category.examples?[signLanguageType]?.length ?? 0)
     );
   }
   

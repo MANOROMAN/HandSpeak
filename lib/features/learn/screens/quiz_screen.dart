@@ -65,13 +65,10 @@ class ModernQuizScreen extends ConsumerStatefulWidget {
 }
 
 class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
-    with TickerProviderStateMixin {
-  late QuizCategory selectedCategory;
+    with TickerProviderStateMixin {  late QuizCategory selectedCategory;
   late AnimationController _animationController;
   late AnimationController _progressController;
-  late AnimationController _questionController;
   late Animation<double> _fadeAnimation;
-  late Animation<double> _slideAnimation;
   late Animation<double> _scaleAnimation;
 
   // Quiz State
@@ -94,7 +91,6 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
     _findSelectedCategory();
     _generateQuestions();
   }
-
   void _initializeAnimations() {
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 800),
@@ -106,23 +102,10 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       vsync: this,
     );
 
-    _questionController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-
-    _slideAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _questionController,
-      curve: Curves.easeOutCubic,
-    ));
 
     _scaleAnimation = Tween<double>(
       begin: 0.8,
@@ -132,32 +115,59 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       curve: Curves.elasticOut,
     ));
   }
-
   void _findSelectedCategory() {
+    print('DEBUG: _findSelectedCategory çağrıldı, widget.categoryId: ${widget.categoryId}');
     selectedCategory = quizCategories.firstWhere(
       (category) => category.id == widget.categoryId,
       orElse: () => quizCategories.first,
     );
+    print('DEBUG: Bulunan kategori: ${selectedCategory.nameKey} (ID: ${selectedCategory.id})');
   }
-
   void _generateQuestions() {
+    print('DEBUG: _generateQuestions başladı');
     final signLanguageType = ref.read(signLanguageProvider);
+    print('DEBUG: Dil tipi: $signLanguageType');
+    print('DEBUG: Widget categoryId: ${widget.categoryId}');
+    print('DEBUG: Seçilen kategori: ${selectedCategory.nameKey} (ID: ${selectedCategory.id})');
+    
     List<QuizExample> examples = [];
     
     if (widget.categoryId == 'all') {
+      print('DEBUG: All kategorisi seçildi, tüm kategorilerden örnek alınıyor');
       // Mix questions from all categories
       for (var category in quizCategories) {
         if (category.id != 'all' && category.examples != null) {
           final categoryExamples = category.examples![signLanguageType] ?? [];
+          print('DEBUG: ${category.nameKey} kategorisinden ${categoryExamples.length} örnek eklendi');
           examples.addAll(categoryExamples.map((e) => e));
         }
       }
       examples.shuffle();
+      print('DEBUG: Toplam karışık örnek sayısı: ${examples.length}');
     } else {
       examples = selectedCategory.examples?[signLanguageType] ?? [];
+      print('DEBUG: ${selectedCategory.nameKey} kategorisinden ${examples.length} örnek alındı');
+      
+      // Debug: örnekleri listele
+      if (examples.isNotEmpty) {
+        print('DEBUG: İlk 5 örnek:');
+        for (int i = 0; i < examples.length && i < 5; i++) {
+          print('DEBUG: ${i+1}. ${examples[i].word} - ${examples[i].description}');
+        }
+      }
     }
     
-    if (examples.isEmpty) return;
+    print('DEBUG: Toplam örnek sayısı: ${examples.length}');
+    
+    if (examples.isEmpty) {
+      print('DEBUG: HATA - Örnek bulunamadı, soru oluşturulamıyor!');
+      print('DEBUG: selectedCategory.examples null mu? ${selectedCategory.examples == null}');
+      if (selectedCategory.examples != null) {
+        print('DEBUG: Turkish örnekleri: ${selectedCategory.examples![SignLanguageType.turkish]?.length ?? 0}');
+        print('DEBUG: American örnekleri: ${selectedCategory.examples![SignLanguageType.american]?.length ?? 0}');
+      }
+      return;
+    }
 
     _questions = [];
     
@@ -195,13 +205,16 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
         videoUrl: 'assets/videos/${selectedCategory.id}/${example.word.toLowerCase()}.mp4',
       ));
     }
-    
-    // Limit questions based on category
+      // Limit questions based on category
     final estimatedQuestions = selectedCategory.estimatedQuestions ?? 10;
     if (_questions.length > estimatedQuestions) {
       _questions.shuffle();
       _questions = _questions.take(estimatedQuestions).toList();
     }
+    
+    print('DEBUG: Toplam ${_questions.length} soru oluşturuldu');
+    print('DEBUG: İlk soru: ${_questions.isNotEmpty ? _questions[0].word : "YOK"}');
+    setState(() {}); // UI'ı güncelle
   }
 
   List<String> _generateContextualOptions(String correctAnswer, String categoryId) {
@@ -219,7 +232,6 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
     options.shuffle();
     return options.take(3).toList();
   }
-
   void _startQuiz() {
     if (_questions.isEmpty) {
       _showNoQuestionsDialog();
@@ -234,30 +246,55 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       _selectedAnswerIndex = null;
       _quizStartTime = DateTime.now();
       _wrongQuestions.clear();
-    });
-
+    });    // Animation sırasını düzelt - soruları görünür yapmak için
+    _animationController.reset();
     _animationController.forward();
     _progressController.forward();
-    _startQuestionTimer();
+    
+    // Timer'ı biraz geciktir ki UI tamamen yüklenmesini bekle
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        _startQuestionTimer();
+      }
+    });
   }
 
   void _startQuestionTimer() {
     _timeLeft = 30;
     _questionTimer?.cancel();
     _questionTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_timeLeft > 0 && !_isAnswered) {
-        setState(() {
-          _timeLeft--;
-        });
-      } else {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      
+      setState(() {
+        _timeLeft--;
+      });
+      
+      if (_timeLeft <= 0) {
+        timer.cancel();
         _handleTimeUp();
       }
     });
   }
 
   void _handleTimeUp() {
-    if (!_isAnswered) {
-      _checkAnswer(-1); // Wrong answer due to timeout
+    if (!_isAnswered && mounted) {
+      // Süre dolduğunda otomatik olarak yanlış cevap ver
+      final currentQuestion = _questions[_currentQuestionIndex];
+      
+      setState(() {
+        _selectedAnswerIndex = -1; // Hiçbir seçenek seçilmedi
+        _isAnswered = true;
+        _wrongQuestions.add(currentQuestion);
+      });
+      
+      // Çok kısa bir gecikme ile sonraki soruya geç (sadece kırmızı göstermek için)
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+        _moveToNextQuestion();
+      });
     }
   }
 
@@ -284,18 +321,14 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       _moveToNextQuestion();
     });
   }
-
   void _moveToNextQuestion() {
     if (_currentQuestionIndex < _questions.length - 1) {
-      _questionController.forward().then((_) {
-        setState(() {
-          _currentQuestionIndex++;
-          _isAnswered = false;
-          _selectedAnswerIndex = null;
-        });
-        _questionController.reset();
-        _startQuestionTimer();
+      setState(() {
+        _currentQuestionIndex++;
+        _isAnswered = false;
+        _selectedAnswerIndex = null;
       });
+      _startQuestionTimer();
     } else {
       _finishQuiz();
     }
@@ -325,12 +358,10 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
     if (percentage >= 50) return 'Geliştirilmeli';
     return 'Tekrar Çalışmalı';
   }
-
   @override
   void dispose() {
     _animationController.dispose();
     _progressController.dispose();
-    _questionController.dispose();
     _questionTimer?.cancel();
     super.dispose();
   }
@@ -728,156 +759,26 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
                 ),
               ],
             ),
-          ),
-
-          // Question Content
+          ),          // Question Content
           Expanded(
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset(_slideAnimation.value, 0),
-                end: Offset.zero,
-              ).animate(_questionController),
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(20.w),
-                child: Column(
-                  children: [
-                    // Question Card
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(24.w),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            selectedCategory.color.withOpacity(0.1),
-                            selectedCategory.color.withOpacity(0.05),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(24.r),
-                        border: Border.all(
-                          color: selectedCategory.color.withOpacity(0.2),
-                          width: 2,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Bu işaret hangi kelimeyi ifade eder?',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white
-                                  : const Color(0xFF1F2937),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 24.h),
-                          
-                          // Sign Language Visual
-                          Container(
-                            width: 150.w,
-                            height: 150.w,
-                            decoration: BoxDecoration(
-                              color: selectedCategory.color.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.sign_language_rounded,
-                                  size: 80.sp,
-                                  color: selectedCategory.color,
-                                ),
-                                SizedBox(height: 8.h),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                                  decoration: BoxDecoration(
-                                    color: _getDifficultyColor(currentQuestion.difficulty),
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: Text(
-                                    _getDifficultyText(currentQuestion.difficulty),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 16.h),
-                          
-                          Text(
-                            currentQuestion.gestureDescription,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: selectedCategory.color,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          
-                          if (_isAnswered) ...[
-                            SizedBox(height: 16.h),
-                            Container(
-                              padding: EdgeInsets.all(12.w),
-                              decoration: BoxDecoration(
-                                color: (_selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                    ? Colors.green 
-                                    : Colors.red).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(12.r),
-                                border: Border.all(
-                                  color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                      ? Colors.green 
-                                      : Colors.red,
-                                ),
-                              ),
-                              child: Text(
-                                currentQuestion.description,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
-                                      ? Colors.green 
-                                      : Colors.red,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    
-                    SizedBox(height: 30.h),
-                    
-                    // Answer Options
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12.w,
-                        mainAxisSpacing: 12.h,
-                        childAspectRatio: 2.5,
-                      ),
-                      itemCount: currentQuestion.options.length,
-                      itemBuilder: (context, index) {
-                        return _buildAnswerOption(currentQuestion, index);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: _questions.isNotEmpty
+                ? AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 600),
+                    transitionBuilder: (Widget child, Animation<double> animation) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1.0, 0.0),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOutCubic,
+                        )),
+                        child: child,
+                      );
+                    },
+                    child: _buildQuestionContent(_questions[_currentQuestionIndex]),
+                  )
+                : const Center(child: CircularProgressIndicator()),
           ),
           
           // Score Display
@@ -915,11 +816,158 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
     );
   }
 
+  Widget _buildQuestionContent(QuizQuestion currentQuestion) {
+    return SingleChildScrollView(
+      key: ValueKey(_currentQuestionIndex), // Bu key ile AnimatedSwitcher doğru çalışır
+      padding: EdgeInsets.all(20.w),
+      child: Column(
+        children: [
+          // Question Card
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(24.w),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  selectedCategory.color.withOpacity(0.1),
+                  selectedCategory.color.withOpacity(0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24.r),
+              border: Border.all(
+                color: selectedCategory.color.withOpacity(0.2),
+                width: 2,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Bu işaret hangi kelimeyi ifade eder?',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : const Color(0xFF1F2937),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24.h),
+                
+                // Sign Language Visual
+                Container(
+                  width: 150.w,
+                  height: 150.w,
+                  decoration: BoxDecoration(
+                    color: selectedCategory.color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.sign_language_rounded,
+                        size: 80.sp,
+                        color: selectedCategory.color,
+                      ),
+                      SizedBox(height: 8.h),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                          color: _getDifficultyColor(currentQuestion.difficulty),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          _getDifficultyText(currentQuestion.difficulty),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                
+                Text(
+                  currentQuestion.gestureDescription,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: selectedCategory.color,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                
+                if (_isAnswered) ...[
+                  SizedBox(height: 16.h),
+                  Container(
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: (_selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                          ? Colors.green 
+                          : Colors.red).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                            ? Colors.green 
+                            : Colors.red,
+                      ),
+                    ),
+                    child: Text(
+                      _selectedAnswerIndex == -1 
+                          ? 'Süre Doldu! Doğru cevap: ${currentQuestion.word}'
+                          : currentQuestion.description,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: _selectedAnswerIndex == currentQuestion.correctAnswerIndex 
+                            ? Colors.green 
+                            : Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          
+          SizedBox(height: 30.h),
+          
+          // Answer Options
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 2.5,
+            ),
+            itemCount: currentQuestion.options.length,
+            itemBuilder: (context, index) {
+              return _buildAnswerOption(currentQuestion, index);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAnswerOption(QuizQuestion question, int index) {
     final isCorrect = index == question.correctAnswerIndex;
     final isSelected = _selectedAnswerIndex == index;
     final isWrong = _isAnswered && isSelected && !isCorrect;
     final shouldShowCorrect = _isAnswered && isCorrect;
+    final isTimeUp = _isAnswered && _selectedAnswerIndex == -1;
 
     Color buttonColor;
     if (!_isAnswered) {
@@ -928,6 +976,9 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       buttonColor = Colors.green;
     } else if (isWrong) {
       buttonColor = Colors.red;
+    } else if (isTimeUp) {
+      // Süre dolduğunda tüm yanlış seçenekler gri olsun
+      buttonColor = Colors.grey[300]!;
     } else {
       buttonColor = Colors.grey[300]!;
     }
@@ -1212,7 +1263,6 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
       ],
     );
   }
-
   void _restartQuiz() {
     setState(() {
       _quizStarted = false;
@@ -1224,7 +1274,6 @@ class _ModernQuizScreenState extends ConsumerState<ModernQuizScreen>
     });
     _animationController.reset();
     _progressController.reset();
-    _questionController.reset();
     _generateQuestions();
   }
 

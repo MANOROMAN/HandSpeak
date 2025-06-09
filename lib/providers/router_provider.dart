@@ -101,8 +101,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/learn/quiz',
         builder: (context, state) {
-          final categoryId = state.uri.queryParameters['category'] ?? 
-                            (state.extra is Map ? (state.extra as Map)['categoryId']?.toString() : null);
+          // Get category from extra data
+          final extra = state.extra as Map<String, dynamic>?;
+          final categoryId = extra?['category'] ?? state.uri.queryParameters['category'];
+          
           return ModernQuizScreen(categoryId: categoryId);
         },
       ),
