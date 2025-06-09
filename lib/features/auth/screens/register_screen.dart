@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:hand_speak/core/widgets/auth_text_field.dart';
 import 'package:hand_speak/core/widgets/auth_button.dart';
 import 'package:hand_speak/core/utils/translation_helper.dart' show T;
@@ -24,6 +25,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _dateOfBirthController = TextEditingController();
+  DateTime? _selectedDateOfBirth;
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -94,6 +97,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     _slideController.forward();
   }
 
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(now.year - 18, now.month, now.day),
+      firstDate: DateTime(1900),
+      lastDate: now,
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDateOfBirth = picked;
+        _dateOfBirthController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
+
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -105,6 +124,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
         password: _passwordController.text,
         firstName: _firstNameController.text.trim(),
         lastName: _lastNameController.text.trim(),
+        dateOfBirth: _selectedDateOfBirth!,
       );
       
       if (mounted && userCredential.user != null) {
@@ -169,6 +189,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _dateOfBirthController.dispose();
     super.dispose();
   }
 
@@ -344,6 +365,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                                       ),
                                     ),
                                   ],
+                                ),
+
+                                SizedBox(height: 16.h),
+
+                                _buildModernTextField(
+                                  controller: _dateOfBirthController,
+                                  hintText: T(context, 'auth.date_of_birth_hint'),
+                                  prefixIcon: Icons.cake_outlined,
+                                  readOnly: true,
+                                  onTap: _pickDate,
+                                  validator: (value) {
+                                    if (_selectedDateOfBirth == null) {
+                                      return T(context, 'auth.validation_birth_date_required');
+                                    }
+                                    return null;
+                                  },
                                 ),
 
                                 SizedBox(height: 16.h),
@@ -525,6 +562,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
     bool obscureText = false,
     Widget? suffixIcon,
     String? Function(String?)? validator,
+    bool readOnly = false,
+    VoidCallback? onTap,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -542,6 +581,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
+        readOnly: readOnly,
+        onTap: onTap,
         validator: validator,
         style: TextStyle(
           fontSize: 16.sp,

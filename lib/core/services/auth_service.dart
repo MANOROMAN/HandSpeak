@@ -49,7 +49,10 @@ class AuthService {
   }
 
   // Create user profile in Firestore
-  Future<UserModel?> _createUserProfile(User user) async {
+  Future<UserModel?> _createUserProfile(
+    User user, {
+    DateTime? dateOfBirth,
+  }) async {
     try {
       String firstName = 'Kullanıcı';
       String lastName = '';
@@ -69,6 +72,7 @@ class AuthService {
         email: user.email ?? '',
         photoUrl: user.photoURL,
         createdAt: DateTime.now(),
+        dateOfBirth: dateOfBirth ?? DateTime.now(),
         isEmailVerified: user.emailVerified,
       );
 
@@ -88,6 +92,7 @@ class AuthService {
     required String password,
     required String firstName,
     required String lastName,
+    required DateTime dateOfBirth,
   }) async {
     try {
       debugPrint('🔄 Starting email registration for: $email');
@@ -102,7 +107,10 @@ class AuthService {
         await userCredential.user!.updateDisplayName('$firstName $lastName');
         
         // Create user profile in Firestore
-        await _createUserProfile(userCredential.user!);
+        await _createUserProfile(
+          userCredential.user!,
+          dateOfBirth: dateOfBirth,
+        );
         
         debugPrint('✅ Email registration successful');
       }

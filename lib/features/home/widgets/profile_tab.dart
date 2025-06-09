@@ -800,6 +800,12 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
                   value: DateFormat('dd MMMM yyyy, HH:mm', 'tr_TR').format(user.createdAt),
                   color: const Color(0xFF10B981),
                 ),
+                _buildInfoItem(
+                  icon: Icons.cake,
+                  label: 'Doğum Tarihi',
+                  value: DateFormat('dd MMMM yyyy', 'tr_TR').format(user.dateOfBirth),
+                  color: const Color(0xFFE91E63),
+                ),
                 if (user.preferences != null && user.preferences!.isNotEmpty)
                   _buildInfoItem(
                     icon: Icons.settings,

@@ -8,6 +8,7 @@ class UserModel extends Equatable {
   final String email;
   final String? photoUrl;
   final DateTime createdAt;
+  final DateTime dateOfBirth;
   final bool isEmailVerified;
   final Map<String, dynamic>? preferences;
 
@@ -18,6 +19,7 @@ class UserModel extends Equatable {
     required this.email,
     this.photoUrl,
     required this.createdAt,
+    required this.dateOfBirth,
     this.isEmailVerified = false,
     this.preferences,
   });
@@ -33,6 +35,7 @@ class UserModel extends Equatable {
         email,
         photoUrl,
         createdAt,
+        dateOfBirth,
         isEmailVerified,
         preferences,
       ];
@@ -45,6 +48,7 @@ class UserModel extends Equatable {
       'email': email,
       'photoUrl': photoUrl,
       'createdAt': Timestamp.fromDate(createdAt),
+      'dateOfBirth': Timestamp.fromDate(dateOfBirth),
       'isEmailVerified': isEmailVerified,
       'preferences': preferences ?? {},
     };
@@ -60,6 +64,9 @@ class UserModel extends Equatable {
       createdAt: map['createdAt'] is Timestamp
           ? (map['createdAt'] as Timestamp).toDate()
           : DateTime.now(),
+      dateOfBirth: map['dateOfBirth'] is Timestamp
+          ? (map['dateOfBirth'] as Timestamp).toDate()
+          : DateTime.now(),
       isEmailVerified: map['isEmailVerified'] ?? false,
       preferences: map['preferences'],
     );
@@ -72,6 +79,7 @@ class UserModel extends Equatable {
     String? email,
     String? photoUrl,
     DateTime? createdAt,
+    DateTime? dateOfBirth,
     bool? isEmailVerified,
     Map<String, dynamic>? preferences,
   }) {
@@ -82,6 +90,7 @@ class UserModel extends Equatable {
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       createdAt: createdAt ?? this.createdAt,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       preferences: preferences ?? this.preferences,
     );
