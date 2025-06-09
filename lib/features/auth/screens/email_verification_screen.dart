@@ -305,12 +305,11 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                       ),
                       textAlign: TextAlign.center,
                     ),
-                  ),
-                  // Verify button
+                  ),                  // Verify button
                 SizedBox(
                   width: double.infinity,
                   child: CustomButton(
-                    onPressed: _isVerifying ? null : () => _verifyCode(),
+                    onPressed: _isVerifying ? () {} : () => _verifyCode(),
                     isLoading: _isVerifying,
                     text: T(context, 'auth.verify_code'),
                   ),

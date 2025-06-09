@@ -108,7 +108,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/help',
-        builder: (context, state) => const HelpPage(),
+        builder: (context, state) => const UltraModernHelpPage(),
       ),
       GoRoute(
         path: '/about',

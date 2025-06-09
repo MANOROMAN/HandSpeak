@@ -17,11 +17,10 @@ class CameraDebugHelper {
         debugPrint('   ✅ User authenticated: ${user.uid}');
         debugPrint('   📧 Email: ${user.email}');
         debugPrint('   🔑 Anonymous: ${user.isAnonymous}');
-        
-        // Test ID Token
+          // Test ID Token
         try {
           final token = await user.getIdToken(true);
-          debugPrint('   ✅ ID Token obtained (length: ${token.length})');
+          debugPrint('   ✅ ID Token obtained (length: ${token?.length ?? 0})');
         } catch (e) {
           debugPrint('   ❌ ID Token error: $e');
         }
