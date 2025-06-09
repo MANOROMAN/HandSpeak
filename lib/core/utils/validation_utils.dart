@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:hand_speak/core/utils/translation_helper.dart' show T;
+
 class ValidationUtils {
   static bool isValidEmail(String email) {
     final emailRegExp = RegExp(
@@ -20,51 +23,51 @@ class ValidationUtils {
     return nameRegExp.hasMatch(name);
   }
 
-  static String? validateEmail(String? value) {
+  static String? validateEmail(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return 'E-posta adresi gerekli';
+      return T(context, 'auth.validation_email_required');
     }
     if (!isValidEmail(value)) {
-      return 'Geçerli bir e-posta adresi girin';
+      return T(context, 'auth.validation_email_invalid');
     }
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validatePassword(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return 'Şifre gerekli';
+      return T(context, 'auth.validation_password_required');
     }
     if (value.length < 6) {
-      return 'Şifre en az 6 karakter olmalı';
+      return T(context, 'auth.validation_password_min_length');
     }
     if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Şifre en az bir büyük harf içermeli';
+      return T(context, 'auth.validation_password_uppercase');
     }
     if (!value.contains(RegExp(r'[a-z]'))) {
-      return 'Şifre en az bir küçük harf içermeli';
+      return T(context, 'auth.validation_password_lowercase');
     }
     if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Şifre en az bir rakam içermeli';
+      return T(context, 'auth.validation_password_digit');
     }
     return null;
   }
 
-  static String? validateConfirmPassword(String? value, String password) {
+  static String? validateConfirmPassword(BuildContext context, String? value, String password) {
     if (value == null || value.isEmpty) {
-      return 'Şifre tekrarı gerekli';
+      return T(context, 'auth.validation_password_confirm_required');
     }
     if (value != password) {
-      return 'Şifreler eşleşmiyor';
+      return T(context, 'auth.validation_passwords_mismatch');
     }
     return null;
   }
 
-  static String? validateName(String? value) {
+  static String? validateName(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return 'Ad Soyad gerekli';
+      return T(context, 'auth.validation_name_required');
     }
     if (!isValidName(value)) {
-      return 'Geçerli bir ad soyad girin';
+      return T(context, 'auth.validation_name_invalid');
     }
     return null;
   }
