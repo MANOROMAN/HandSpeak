@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hand_speak/providers/user_provider.dart';
 import 'package:hand_speak/core/utils/translation_helper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:hand_speak/providers/storage_provider.dart';
 
 class ProfilePhotoUploadWidget extends ConsumerWidget {
   const ProfilePhotoUploadWidget({Key? key}) : super(key: key);
@@ -77,6 +76,7 @@ class ProfilePhotoUploadWidget extends ConsumerWidget {
   }
 
   Future<void> _showImageSourceDialog(BuildContext context, WidgetRef ref) async {
+    final user = ref.read(userProvider).valueOrNull;
     return showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -113,6 +113,15 @@ class ProfilePhotoUploadWidget extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (user?.photoUrl != null) ...[
+                SizedBox(height: 16.h),
+                _buildSourceOption(
+                  context,
+                  icon: Icons.delete,
+                  title: T(context, 'profile.remove_photo'),
+                  onTap: () => _removeProfilePhoto(context, ref),
+                ),
+              ],
             ],
           ),
         ),
@@ -159,35 +168,61 @@ class ProfilePhotoUploadWidget extends ConsumerWidget {
 
   Future<void> _pickImageFromCamera(BuildContext context, WidgetRef ref) async {
     Navigator.pop(context);
-    final picker = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.camera);
-    
-    if (image != null) {
-      await _updateProfilePhoto(context, ref, image.path);
+    final storage = ref.read(storageServiceProvider);
+    final file = await storage.pickImageFromCamera();
+
+    if (file != null) {
+      await _uploadProfilePhoto(context, ref, file);
     }
   }
 
   Future<void> _pickImageFromGallery(BuildContext context, WidgetRef ref) async {
     Navigator.pop(context);
-    final picker = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.gallery);
-    
-    if (image != null) {
-      await _updateProfilePhoto(context, ref, image.path);
+    final storage = ref.read(storageServiceProvider);
+    final file = await storage.pickImageFromGallery();
+
+    if (file != null) {
+      await _uploadProfilePhoto(context, ref, file);
     }
   }
 
-  Future<void> _updateProfilePhoto(BuildContext context, WidgetRef ref, String imagePath) async {
+  Future<void> _uploadProfilePhoto(BuildContext context, WidgetRef ref, File imageFile) async {
     try {
       final user = ref.read(userProvider).valueOrNull;
       if (user == null) return;
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('profile_images/${user.id}/${DateTime.now().millisecondsSinceEpoch}.jpg');
-      final uploadTask = await storageRef.putFile(File(imagePath));
-      final downloadUrl = await storageRef.getDownloadURL();
+      final storage = ref.read(storageServiceProvider);
+      final downloadUrl = await storage.uploadProfileImage(user.id, imageFile);
 
       await ref.read(userProvider.notifier).updateProfilePhoto(downloadUrl);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(T(context, 'auth.profile_photo_updated')),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${T(context, 'errors.general_error')}: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _removeProfilePhoto(BuildContext context, WidgetRef ref) async {
+    Navigator.pop(context);
+    try {
+      final user = ref.read(userProvider).valueOrNull;
+      if (user == null) return;
+      final storage = ref.read(storageServiceProvider);
+      await storage.deleteProfileImage(user.id);
+      await ref.read(userProvider.notifier).removeProfilePhoto();
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
