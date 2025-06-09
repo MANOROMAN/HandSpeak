@@ -96,6 +96,7 @@
         "welcome_message": "Welcome",
         "password_reset_email": "Password reset link has been sent to your email",
         "password_reset_sent": "Password reset email sent. Please check your inbox.",
+        "verification_code_sent": "Verification code sent. Please check your inbox.",
         "profile_photo_updated": "Profile photo updated",
         "passwords_not_match": "Passwords don't match!",
         "fill_all_fields": "Please fill all fields!",
