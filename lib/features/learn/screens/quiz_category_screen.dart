@@ -542,12 +542,9 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
                           return Transform.translate(
                             offset: Offset(0, 50 * (1 - value)),
                             child: Opacity(
-                              opacity: value,
-                              child: _buildUltraModernCategoryCard(
-                                context, 
+                              opacity: value,                              child: _buildUltraModernCategoryCard(
                                 filteredCategories[index], 
                                 index,
-                                signLanguageType,
                               ),
                             ),
                           );
@@ -934,7 +931,6 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
       default: return 'Bilinmiyor';
     }
   }
-
   Color _getDifficultyColor(String difficulty) {
     switch (difficulty) {
       case 'easy': return const Color(0xFF10B981);
@@ -944,3 +940,4 @@ class _QuizCategoryScreenState extends ConsumerState<QuizCategoryScreen>
       default: return Colors.grey;
     }
   }
+}

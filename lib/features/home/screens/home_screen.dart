@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hand_speak/features/home/widgets/profile_tab.dart';
-import 'package:hand_speak/features/home/widgets/translation_tab.dart';
+import 'package:hand_speak/features/home/widgets/webtranslate.dart';
 import 'package:hand_speak/features/home/widgets/learn_tab.dart';
 import 'package:hand_speak/core/utils/translation_helper.dart' show T;
 import 'package:hand_speak/providers/language_provider.dart';
 import 'package:hand_speak/providers/navigation_provider.dart';
 import 'dart:math' as math;
+import 'dart:ui';
 
 class ModernHomeScreen extends ConsumerStatefulWidget {
   const ModernHomeScreen({Key? key}) : super(key: key);
@@ -92,9 +93,14 @@ class _ModernHomeScreenState extends ConsumerState<ModernHomeScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.exit_to_app, color: Colors.white),
+              Icon(Icons.exit_to_app, color: Colors.white, size: 20.sp),
               SizedBox(width: 12.w),
-              Text(T(context, 'common.exit_app_message')),
+              Expanded(
+                child: Text(
+                  T(context, 'common.exit_app_message'),
+                  style: TextStyle(fontSize: 14.sp),
+                ),
+              ),
             ],
           ),
           backgroundColor: Colors.black87,
@@ -103,6 +109,7 @@ class _ModernHomeScreenState extends ConsumerState<ModernHomeScreen>
             borderRadius: BorderRadius.circular(12.r),
           ),
           margin: EdgeInsets.all(20.w),
+          duration: const Duration(seconds: 2),
         ),
       );
       return false;
@@ -148,156 +155,75 @@ class _ModernHomeScreenState extends ConsumerState<ModernHomeScreen>
               index: currentIndex,
               children: _pages,
             ),
-            
-            // Floating Action Button
-            if (currentIndex == 0) // Show only on translation tab
-              Positioned(
-                bottom: 100.h,
-                right: 20.w,
-                child: ScaleTransition(
-                  scale: _floatingButtonAnimation,
+          ],
+        ),
+        bottomNavigationBar: Container(
+          height: 56.0, // Sabit yükseklik
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[900]
+                : Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(3, (index) {
+              final isSelected = currentIndex == index;
+              return Expanded(
+                child: InkWell(
+                  onTap: () {
+                    ref.read(navigationTabProvider.notifier).setTab(index);
+                  },
                   child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.8),
-                        ],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Theme.of(context).primaryColor.withOpacity(0.3),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
+                    height: 56.0,
+                    child: Center(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 6.h,
                         ),
-                      ],
-                    ),
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        // Quick action
-                      },
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      child: Icon(
-                        Icons.mic,
-                        color: Colors.white,
-                        size: 28.sp,
+                        decoration: BoxDecoration(
+                          color: isSelected 
+                            ? Theme.of(context).primaryColor.withOpacity(0.1)
+                            : Colors.transparent,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              _getIconForIndex(index),
+                              size: 20.sp,
+                              color: isSelected 
+                                ? Theme.of(context).primaryColor 
+                                : Colors.grey[600],
+                            ),
+                            if (isSelected) ...[
+                              SizedBox(width: 4.w),
+                              Text(
+                                _getLabelForIndex(context, index),
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-          ],
-        ),
-        bottomNavigationBar: Container(
-          height: 90.h,
-          decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.black
-                : Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.r),
-              topRight: Radius.circular(30.r),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 30,
-                offset: const Offset(0, -10),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.r),
-              topRight: Radius.circular(30.r),
-            ),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(3, (index) {
-                  final isSelected = currentIndex == index;
-                  return Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        ref.read(navigationTabProvider.notifier).setTab(index);
-                        _navigationAnimationController.reset();
-                        _navigationAnimationController.forward();
-                      },
-                      child: AnimatedBuilder(
-                        animation: _iconAnimations[index],
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: 0.8 + (_iconAnimations[index].value * 0.2),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.h),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      // Background circle
-                                      AnimatedContainer(
-                                        duration: const Duration(milliseconds: 300),
-                                        width: isSelected ? 50.w : 0,
-                                        height: isSelected ? 50.w : 0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Theme.of(context).primaryColor.withOpacity(0.2),
-                                              Theme.of(context).primaryColor.withOpacity(0.1),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      // Icon
-                                      Icon(
-                                        _getIconForIndex(index),
-                                        size: isSelected ? 28.sp : 24.sp,
-                                        color: isSelected 
-                                          ? Theme.of(context).primaryColor 
-                                          : Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  AnimatedDefaultTextStyle(
-                                    duration: const Duration(milliseconds: 300),
-                                    style: TextStyle(
-                                      fontSize: isSelected ? 12.sp : 10.sp,
-                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                      color: isSelected 
-                                        ? Theme.of(context).primaryColor 
-                                        : Colors.grey,
-                                    ),
-                                    child: Text(_getLabelForIndex(context, index)),
-                                  ),
-                                  // Selection indicator
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    margin: EdgeInsets.only(top: 4.h),
-                                    width: isSelected ? 20.w : 0,
-                                    height: 3.h,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
-                                      borderRadius: BorderRadius.circular(2.r),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ),
