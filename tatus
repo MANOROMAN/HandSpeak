@@ -1,0 +1,116 @@
+[33mcommit f48d3725c5c280ab25900ef4a3df43cad58ead39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Your Name <your-email@example.com>
+Date:   Mon Jun 9 10:46:56 2025 +0300
+
+    Initial commit - Hand_Speak Flutter projesi
+
+ .firebaserc                                        |     5 [32m+[m
+ .gitignore                                         |    66 [32m+[m
+ .metadata                                          |    45 [32m+[m
+ .vscode/settings.json                              |     5 [32m+[m
+ COPY_THESE_FIREBASE_RULES.txt                      |    52 [32m+[m
+ FIREBASE_FINAL_SETUP.md                            |   141 [32m+[m
+ FIREBASE_FUNCTIONS_SETUP.md                        |    76 [32m+[m
+ FIREBASE_SETUP_CHECKLIST.md                        |    54 [32m+[m
+ FIREBASE_STORAGE_FIX.md                            |   154 [32m+[m
+ FIREBASE_STORAGE_RULES_INSTRUCTIONS.md             |   164 [32m+[m
+ FIREBASE_STORAGE_STATUS_FINAL.md                   |   110 [32m+[m
+ README.md                                          |   Bin [31m0[m -> [32m625[m bytes
+ TEMPORARY_FIREBASE_RULES.txt                       |     8 [32m+[m
+ TESTING_SUMMARY.md                                 |   192 [32m+[m
+ analysis_options.yaml                              |    28 [32m+[m
+ android/.gitignore                                 |    14 [32m+[m
+ android/app/build.gradle.kts                       |    89 [32m+[m
+ android/app/google-services.json                   |    54 [32m+[m
+ android/app/src/debug/AndroidManifest.xml          |     7 [32m+[m
+ android/app/src/main/AndroidManifest.xml           |    64 [32m+[m
+ .../kotlin/com/example/hand_speak/MainActivity.kt  |     5 [32m+[m
+ .../main/res/drawable-v21/launch_background.xml    |    12 [32m+[m
+ .../src/main/res/drawable/launch_background.xml    |    12 [32m+[m
+ .../app/src/main/res/mipmap-hdpi/ic_launcher.png   |   Bin [31m0[m -> [32m544[m bytes
+ .../app/src/main/res/mipmap-mdpi/ic_launcher.png   |   Bin [31m0[m -> [32m442[m bytes
+ .../app/src/main/res/mipmap-xhdpi/ic_launcher.png  |   Bin [31m0[m -> [32m721[m bytes
+ .../app/src/main/res/mipmap-xxhdpi/ic_launcher.png |   Bin [31m0[m -> [32m1031[m bytes
+ .../src/main/res/mipmap-xxxhdpi/ic_launcher.png    |   Bin [31m0[m -> [32m1443[m bytes
+ android/app/src/main/res/values-night/styles.xml   |    18 [32m+[m
+ android/app/src/main/res/values/styles.xml         |    18 [32m+[m
+ android/app/src/profile/AndroidManifest.xml        |     7 [32m+[m
+ android/build.gradle.kts                           |    44 [32m+[m
+ android/gradle.properties                          |     3 [32m+[m
+ android/gradle/wrapper/gradle-wrapper.properties   |     5 [32m+[m
+ android/settings.gradle.kts                        |    33 [32m+[m
+ assets/fonts/Poppins-Bold.ttf                      |   Bin [31m0[m -> [32m153944[m bytes
+ assets/fonts/Poppins-Regular.ttf                   |   Bin [31m0[m -> [32m158240[m bytes
+ assets/images/en.png                               |   Bin [31m0[m -> [32m104556[m bytes
+ assets/images/logo.png                             |   Bin [31m0[m -> [32m60804[m bytes
+ assets/images/tr.png                               |   Bin [31m0[m -> [32m21370[m bytes
+ assets/lottie/Hata.json                            |     1 [32m+[m
+ assets/lottie/LoadEl.json                          |     1 [32m+[m
+ assets/lottie/SunucuError.json                     |     1 [32m+[m
+ assets/lottie/apple.json                           |     1 [32m+[m
+ assets/lottie/google.json                          |     1 [32m+[m
+ assets/lottie/hand_gesture_animation.json          |   588 [32m+[m
+ assets/lottie/meta.json                            |     1 [32m+[m
+ assets/lottie/modern_sign_language.json            |   480 [32m+[m
+ assets/lottie/sign_language_animated.json          |   501 [32m+[m
+ assets/lottie/sign_language_splash.json            |   375 [32m+[m
+ assets/translations/app_en.arb                     |     0
+ assets/translations/app_tr.arb                     |     0
+ assets/translations/en.json                        |   360 [32m+[m
+ assets/translations/tr.json                        |   354 [32m+[m
+ assets/translations/tr_clean.json                  |   281 [32m+[m
+ check_firebase_rules.bat                           |    69 [32m+[m
+ check_firebase_rules.sh                            |    50 [32m+[m
+ docs/TRANSLATIONS.md                               |   106 [32m+[m
+ firebase.json                                      |    52 [32m+[m
+ firebase_storage_rules.txt                         |    26 [32m+[m
+ firebase_storage_rules_fixed.txt                   |    52 [32m+[m
+ firebase_storage_rules_updated.txt                 |    61 [32m+[m
+ firestore.indexes.json                             |    19 [32m+[m
+ firestore.rules                                    |    50 [32m+[m
+ functions/.firebaserc                              |     5 [32m+[m
+ functions/index.js                                 |     0
+ functions/node_modules/.bin/firebase-functions     |    16 [32m+[m
+ functions/node_modules/.bin/firebase-functions.cmd |    17 [32m+[m
+ functions/node_modules/.bin/firebase-functions.ps1 |    28 [32m+[m
+ functions/node_modules/.bin/fxparser               |    16 [32m+[m
+ functions/node_modules/.bin/fxparser.cmd           |    17 [32m+[m
+ functions/node_modules/.bin/fxparser.ps1           |    28 [32m+[m
+ functions/node_modules/.bin/mime                   |    16 [32m+[m
+ functions/node_modules/.bin/mime.cmd               |    17 [32m+[m
+ functions/node_modules/.bin/mime.ps1               |    28 [32m+[m
+ functions/node_modules/.bin/proto-loader-gen-types |    16 [32m+[m
+ .../node_modules/.bin/proto-loader-gen-types.cmd   |    17 [32m+[m
+ .../node_modules/.bin/proto-loader-gen-types.ps1   |    28 [32m+[m
+ functions/node_modules/.bin/semver                 |    16 [32m+[m
+ functions/node_modules/.bin/semver.cmd             |    17 [32m+[m
+ functions/node_modules/.bin/semver.ps1             |    28 [32m+[m
+ functions/node_modules/.bin/uuid                   |    16 [32m+[m
+ functions/node_modules/.bin/uuid.cmd               |    17 [32m+[m
+ functions/node_modules/.bin/uuid.ps1               |    28 [32m+[m
+ functions/node_modules/.package-lock.json          |  2693 [32m+++[m
+ functions/node_modules/@fastify/busboy/LICENSE     |    19 [32m+[m
+ functions/node_modules/@fastify/busboy/README.md   |   270 [32m+[m
+ .../@fastify/busboy/deps/dicer/LICENSE             |    19 [32m+[m
+ .../@fastify/busboy/deps/dicer/lib/Dicer.js        |   213 [32m+[m
+ .../@fastify/busboy/deps/dicer/lib/HeaderParser.js |   100 [32m+[m
+ .../@fastify/busboy/deps/dicer/lib/PartStream.js   |    13 [32m+[m
+ .../@fastify/busboy/deps/dicer/lib/dicer.d.ts      |   164 [32m+[m
+ .../@fastify/busboy/deps/streamsearch/sbmh.js      |   230 [32m+[m
+ .../node_modules/@fastify/busboy/lib/main.d.ts     |   196 [32m+[m
+ functions/node_modules/@fastify/busboy/lib/main.js |    85 [32m+[m
+ .../@fastify/busboy/lib/types/multipart.js         |   306 [32m+[m
+ .../@fastify/busboy/lib/types/urlencoded.js        |   190 [32m+[m
+ .../@fastify/busboy/lib/utils/Decoder.js           |    54 [32m+[m
+ .../@fastify/busboy/lib/utils/basename.js          |    14 [32m+[m
+ .../@fastify/busboy/lib/utils/decodeText.js        |   114 [32m+[m
+ .../@fastify/busboy/lib/utils/getLimit.js          |    16 [32m+[m
+ .../@fastify/busboy/lib/utils/parseParams.js       |   196 [32m+[m
+ .../node_modules/@fastify/busboy/package.json      |    85 [32m+[m
+ .../@firebase/app-check-interop-types/README.md    |     3 [32m+[m
+ .../@firebase/app-check-interop-types/index.d.ts   |    51 [32m+[m
+ .../@firebase/app-check-interop-types/package.json |    25 [32m+[m
+ .../node_modules/@firebase/app-types/README.md     |     3 [32m+[m
+ .../node_modules/@firebase/app-types/index.d.ts    |   129 [32m+[m
+ .../node_modules/@firebase/app-types/package.json  |    29 [32m+[m
+ .../node_modules/@firebase/app-types/private.d.ts  |   165 [3
