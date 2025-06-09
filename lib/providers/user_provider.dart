@@ -46,12 +46,24 @@ class UserProfileNotifier extends AsyncNotifier<UserModel?> {
   }
 
   // Update profile photo
-  Future<void> updateProfilePhoto(String photoUrl) async {
+  Future<void> updateProfilePhoto(String? photoUrl) async {
     final currentUser = state.valueOrNull;
     if (currentUser == null) return;
     try {
       final authService = ref.read(authServiceProvider);
       await authService.updateProfilePhoto(currentUser.id, photoUrl);
+      await refreshUserProfile();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeProfilePhoto() async {
+    final currentUser = state.valueOrNull;
+    if (currentUser == null) return;
+    try {
+      final authService = ref.read(authServiceProvider);
+      await authService.updateProfilePhoto(currentUser.id, null);
       await refreshUserProfile();
     } catch (e) {
       rethrow;
