@@ -236,18 +236,6 @@
   "@profileClose": {
     "description": "Dialog close button"
   },
-  "myVideosTitle": "My Videos",
-  "@myVideosTitle": {
-    "description": "Title for my videos screen"
-  },
-  "myVideosNoVideos": "You don't have any videos yet",
-  "@myVideosNoVideos": {
-    "description": "Text shown when user has no videos"
-  },
-  "myVideosRecordNew": "Record New Video",
-  "@myVideosRecordNew": {
-    "description": "Text for record new video button"
-  },
   "myVideosPlay": "Play",
   "@myVideosPlay": {
     "description": "Text for play button"
@@ -263,10 +251,6 @@
   "myVideosProcessing": "Processing translation...",
   "@myVideosProcessing": {
     "description": "Text shown when video is being processed for translation"
-  },
-  "profileMyVideos": "My Videos",
-  "@profileMyVideos": {
-    "description": "Text for my videos menu item in profile"
   },
   "homeLearn": "Learn",
   "@homeLearn": {
