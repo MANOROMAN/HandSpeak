@@ -800,6 +800,13 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
                   value: DateFormat('dd MMMM yyyy, HH:mm', 'tr_TR').format(user.createdAt),
                   color: const Color(0xFF10B981),
                 ),
+                if (user.birthDate != null)
+                  _buildInfoItem(
+                    icon: Icons.cake,
+                    label: 'Doğum Tarihi',
+                    value: DateFormat('dd MMMM yyyy', 'tr_TR').format(user.birthDate!),
+                    color: const Color(0xFF6366F1),
+                  ),
                 if (user.preferences != null && user.preferences!.isNotEmpty)
                   _buildInfoItem(
                     icon: Icons.settings,
@@ -872,6 +879,12 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
   void _showEditProfileDialog(BuildContext context, WidgetRef ref, UserModel user) {
     final firstNameController = TextEditingController(text: user.firstName);
     final lastNameController = TextEditingController(text: user.lastName);
+    final birthDateController = TextEditingController(
+      text: user.birthDate != null
+          ? DateFormat('yyyy-MM-dd').format(user.birthDate!)
+          : '',
+    );
+    DateTime? selectedBirthDate = user.birthDate;
     
     showModalBottomSheet(
       context: context,
@@ -943,6 +956,27 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
                   hint: 'Soyadınızı girin',
                   icon: Icons.person_rounded,
                 ),
+                SizedBox(height: 14.h),
+                _buildModernTextField(
+                  controller: birthDateController,
+                  label: 'Doğum Tarihi',
+                  hint: 'Doğum tarihinizi seçin',
+                  icon: Icons.calendar_today,
+                  readOnly: true,
+                  onTap: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: selectedBirthDate ?? DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      selectedBirthDate = picked;
+                      birthDateController.text =
+                          DateFormat('yyyy-MM-dd').format(picked);
+                    }
+                  },
+                ),
                 SizedBox(height: 20.h),
                 Row(
                   children: [
@@ -981,6 +1015,7 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
                             await ref.read(userProvider.notifier).updateUserName(
                               firstNameController.text,
                               lastNameController.text,
+                              birthDate: selectedBirthDate,
                             );
                             if (context.mounted) {
                               Navigator.pop(context);
@@ -1035,6 +1070,8 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
     required String label,
     required String hint,
     required IconData icon,
+    bool readOnly = false,
+    VoidCallback? onTap,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -1048,6 +1085,8 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
       ),
       child: TextField(
         controller: controller,
+        readOnly: readOnly,
+        onTap: onTap,
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,

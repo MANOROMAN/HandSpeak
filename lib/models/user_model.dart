@@ -10,6 +10,7 @@ class UserModel extends Equatable {
   final DateTime createdAt;
   final bool isEmailVerified;
   final Map<String, dynamic>? preferences;
+  final DateTime? birthDate;
 
   const UserModel({
     required this.id,
@@ -20,6 +21,7 @@ class UserModel extends Equatable {
     required this.createdAt,
     this.isEmailVerified = false,
     this.preferences,
+    this.birthDate,
   });
 
   // Helper property to get full name
@@ -35,6 +37,7 @@ class UserModel extends Equatable {
         createdAt,
         isEmailVerified,
         preferences,
+        birthDate,
       ];
 
   Map<String, dynamic> toMap() {
@@ -47,6 +50,7 @@ class UserModel extends Equatable {
       'createdAt': Timestamp.fromDate(createdAt),
       'isEmailVerified': isEmailVerified,
       'preferences': preferences ?? {},
+      'birthDate': birthDate != null ? Timestamp.fromDate(birthDate!) : null,
     };
   }
 
@@ -62,6 +66,9 @@ class UserModel extends Equatable {
           : DateTime.now(),
       isEmailVerified: map['isEmailVerified'] ?? false,
       preferences: map['preferences'],
+      birthDate: map['birthDate'] is Timestamp
+          ? (map['birthDate'] as Timestamp).toDate()
+          : null,
     );
   }
 
@@ -74,6 +81,7 @@ class UserModel extends Equatable {
     DateTime? createdAt,
     bool? isEmailVerified,
     Map<String, dynamic>? preferences,
+    DateTime? birthDate,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -84,6 +92,7 @@ class UserModel extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       preferences: preferences ?? this.preferences,
+      birthDate: birthDate ?? this.birthDate,
     );
   }
 }

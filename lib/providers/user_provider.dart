@@ -71,12 +71,18 @@ class UserProfileNotifier extends AsyncNotifier<UserModel?> {
   }
 
   // Update user name
-  Future<void> updateUserName(String firstName, String lastName) async {
+  Future<void> updateUserName(String firstName, String lastName,
+      {DateTime? birthDate}) async {
     final currentUser = state.valueOrNull;
     if (currentUser == null) return;
     try {
       final authService = ref.read(authServiceProvider);
-      await authService.updateUserName(currentUser.id, firstName, lastName);
+      await authService.updateUserName(
+        currentUser.id,
+        firstName,
+        lastName,
+        birthDate: birthDate,
+      );
       await refreshUserProfile();
     } catch (e) {
       rethrow;
