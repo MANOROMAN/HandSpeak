@@ -373,5 +373,6 @@
     },
     "myVideosTitle": "Videolarım",
     "myVideosNoVideos": "Henüz hiç videonuz yok",
-    "myVideosRecordNew": "Yeni Video Kaydet"
+    "myVideosRecordNew": "Yeni Video Kaydet",
+    "select_video": "Video Seç"
 }

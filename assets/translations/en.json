@@ -379,5 +379,6 @@
     },
     "myVideosTitle": "My Videos",
     "myVideosNoVideos": "You don't have any videos yet",
-    "myVideosRecordNew": "Record New Video"
+    "myVideosRecordNew": "Record New Video",
+    "select_video": "Select Video"
 }

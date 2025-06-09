@@ -330,5 +330,9 @@
   },
   "cameraPreparing": "Camera is preparing...",
   "recordingInProgress": "Recording...",
-  "effects": "Effects"
+  "effects": "Effects",
+  "selectVideo": "Select Video",
+  "@selectVideo": {
+    "description": "Title when selecting a video"
+  }
 }
