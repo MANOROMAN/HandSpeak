@@ -292,10 +292,10 @@ class AuthService {
   }
 
   // Update profile photo
-  Future<void> updateProfilePhoto(String userId, String photoUrl) async {
+  Future<void> updateProfilePhoto(String userId, String? photoUrl) async {
     try {
       await _firestore.collection('users').doc(userId).update({
-        'profilePhoto': photoUrl,
+        'photoUrl': photoUrl,
         'updatedAt': FieldValue.serverTimestamp(),
       });
       
