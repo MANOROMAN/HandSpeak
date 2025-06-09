@@ -369,5 +369,9 @@
   },
   "cameraPreparing": "Kamera hazırlanıyor...",
   "recordingInProgress": "Kayıt yapılıyor...",
-  "effects": "Efektler"
+  "effects": "Efektler",
+  "selectVideo": "Video Seç",
+  "@selectVideo": {
+    "description": "Video galerisinde seçim modu başlığı"
+  }
 }
