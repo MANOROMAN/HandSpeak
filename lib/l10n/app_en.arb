@@ -28,6 +28,22 @@
   "@authPasswordHint": {
     "description": "Password input field hint"
   },
+  "authBirthDate": "Birth Date",
+  "@authBirthDate": {
+    "description": "Label for birth date field"
+  },
+  "authBirthDateHint": "Select your birth date",
+  "@authBirthDateHint": {
+    "description": "Hint for birth date field"
+  },
+  "authValidationBirthDateRequired": "Please enter your birth date",
+  "@authValidationBirthDateRequired": {
+    "description": "Error message when birth date is missing"
+  },
+  "authValidationBirthDateInvalid": "Invalid birth date",
+  "@authValidationBirthDateInvalid": {
+    "description": "Error message when birth date is invalid"
+  },
   "authForgotPassword": "Forgot Password",
   "@authForgotPassword": {
     "description": "Forgot password link text"

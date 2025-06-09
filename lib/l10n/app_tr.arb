@@ -28,6 +28,22 @@
   "@authPasswordHint": {
     "description": "Şifre giriş alanı ipucu"
   },
+  "authBirthDate": "Doğum Tarihi",
+  "@authBirthDate": {
+    "description": "Doğum tarihi alanı etiketi"
+  },
+  "authBirthDateHint": "Doğum tarihinizi seçin",
+  "@authBirthDateHint": {
+    "description": "Doğum tarihi alanı ipucu"
+  },
+  "authValidationBirthDateRequired": "Lütfen doğum tarihinizi girin",
+  "@authValidationBirthDateRequired": {
+    "description": "Doğum tarihi boş bırakıldığında gösterilen hata"
+  },
+  "authValidationBirthDateInvalid": "Geçersiz doğum tarihi",
+  "@authValidationBirthDateInvalid": {
+    "description": "Doğum tarihi geçersiz olduğunda gösterilen hata"
+  },
   "authForgotPassword": "Şifremi Unuttum",
   "@authForgotPassword": {
     "description": "Şifremi unuttum bağlantısı"
