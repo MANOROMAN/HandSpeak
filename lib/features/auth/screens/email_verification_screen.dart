@@ -126,9 +126,15 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
       if (!mounted) return;
       
       if (success) {
+        final userId = authService.currentUser?.uid;
+        if (userId != null) {
+          await authService.markEmailVerified(userId);
+          await ref.read(userProvider.notifier).refreshUserProfile();
+        }
+
         // Navigate to home screen on success
         context.go('/');
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(T(context, 'auth.verification_success')),

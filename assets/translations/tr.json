@@ -91,6 +91,7 @@
         "welcome_message": "Hoş Geldiniz",
         "password_reset_email": "Şifre sıfırlama bağlantısı e-postanıza gönderildi",
         "password_reset_sent": "Şifre sıfırlama e-postası gönderildi. Lütfen gelen kutunuzu kontrol edin.",
+        "verification_code_sent": "Doğrulama kodu gönderildi. Lütfen e-postanızı kontrol edin.",
         "profile_photo_updated": "Profil fotoğrafı güncellendi",
         "passwords_not_match": "Şifreler eşleşmiyor!",
         "fill_all_fields": "Lütfen tüm alanları doldurun!",

@@ -243,6 +243,21 @@ class AuthService {
       rethrow;
     }
   }
+
+  /// Mark the current user's email as verified in Firestore
+  Future<void> markEmailVerified(String userId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'isEmailVerified': true,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      await _auth.currentUser?.reload();
+      debugPrint('✅ Email marked as verified for $userId');
+    } catch (e) {
+      debugPrint('❌ Error updating email verification status: $e');
+      rethrow;
+    }
+  }
   
   // E-posta ve doğrulama koduyla giriş yapma
   Future<UserCredential> signInWithEmailAndCode({
