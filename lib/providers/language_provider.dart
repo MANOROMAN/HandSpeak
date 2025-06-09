@@ -20,6 +20,9 @@ class LanguageController extends StateNotifier<Locale> {
     try {
       // First load default translations
       await _loadTranslations('tr');
+
+      // Notify listeners so widgets rebuild with loaded translations
+      state = const Locale('tr');
       
       // Then check for saved language preference
       final storage = await StorageService.getInstance();
