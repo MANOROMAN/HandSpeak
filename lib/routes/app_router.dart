@@ -78,7 +78,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/learn/research',
         builder: (context, state) => const EnhancedWebViewScreen(
           title: 'İşaret Dili Araştırma',
-          url: 'https://research.sign.mt/',
+          url: 'https://www.handspeak.com/',
         ),
       ),
       GoRoute(

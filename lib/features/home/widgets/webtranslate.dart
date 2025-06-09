@@ -71,6 +71,26 @@ class _ModernTranslationTabState extends ConsumerState<ModernTranslationTab>
         'categories': '25+',
       }
     },
+    {
+      'title': 'Spread the Sign',
+      'subtitle': 'Uluslararası İşaret Dili Sözlüğü',
+      'url': 'https://www.spreadthesign.com/tr.tr/search/',
+      'icon': Icons.language_rounded,
+      'color': const Color(0xFFEC4899),
+      'gradient': [const Color(0xFFEC4899), const Color(0xFFF472B6)],
+      'description': 'Dünyanın en büyük işaret dili sözlüğü - 40+ dil desteği',
+      'features': [
+        '40+ Dil',
+        'Video Sözlük',
+        'Çoklu İşaret Dili',
+        'Karşılaştırmalı Öğrenme'
+      ],
+      'stats': {
+        'languages': '40+',
+        'words': '200K+',
+        'countries': '40+',
+      }
+    },
   ];
 
 
