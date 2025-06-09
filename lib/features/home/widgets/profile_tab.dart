@@ -700,18 +700,6 @@ class _UltraModernProfileTabState extends ConsumerState<UltraModernProfileTab>
         ],
       },
       {
-        'title': 'İçerik',
-        'items': [
-          {
-            'icon': Icons.videocam_outlined,
-            'title': T(context, 'profile.my_videos'),
-            'subtitle': 'Kaydettiğiniz videolar',
-            'color': const Color(0xFF10B981),
-            'onTap': () => context.push('/videos'),
-          },
-        ],
-      },
-      {
         'title': 'Destek',
         'items': [
           {
