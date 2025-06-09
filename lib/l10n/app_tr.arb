@@ -272,7 +272,6 @@
   "profileSettings": "Ayarlar",
   "profileHelp": "Yardım",
   "profileAbout": "Hakkında",
-  "profileMyVideos": "Videolarım",
   "profileLogout": "Çıkış Yap",
   "app_name": "Hand Speak",
   "auth.login_title": "Giriş Yap",
@@ -324,7 +323,6 @@
   "profile.settings": "Ayarlar",
   "profile.help": "Yardım",
   "profile.about": "Hakkında",
-  "profile.my_videos": "Videolarım",
   "profile.logout": "Çıkış Yap",
   "common.cancel": "İptal",
   "general.settings": "Ayarlar",
@@ -339,18 +337,6 @@
   "settings.enable_audio_description": "Video ile birlikte ses de kaydet",
   "settings.reset_to_default": "Varsayılana Döndür",
   "settings.save": "Kaydet",
-  "myVideosTitle": "Videolarım",
-  "@myVideosTitle": {
-    "description": "Videolarım ekranı başlığı"
-  },
-  "myVideosNoVideos": "Henüz hiç videonuz yok",
-  "@myVideosNoVideos": {
-    "description": "Kullanıcının hiç videosu olmadığında gösterilen metin"
-  },
-  "myVideosRecordNew": "Yeni Video Kaydet",
-  "@myVideosRecordNew": {
-    "description": "Yeni video kaydet düğmesi için metin"
-  },
   "myVideosPlay": "Oynat",
   "@myVideosPlay": {
     "description": "Oynat düğmesi için metin"

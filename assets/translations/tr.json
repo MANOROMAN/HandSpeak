@@ -370,8 +370,6 @@
     "numbers": {
         "title": "Sayılar",
         "description": "0'dan 10'a kadar sayıları öğrenin"
-    },
-    "myVideosTitle": "Videolarım",
-    "myVideosNoVideos": "Henüz hiç videonuz yok",
-    "myVideosRecordNew": "Yeni Video Kaydet"
+    }
+
 }
